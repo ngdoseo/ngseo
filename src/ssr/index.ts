@@ -157,7 +157,7 @@ function addDependenciesandCreateScripts(options:any): Rule {
 
     const pkg = JSON.parse(buffer.toString());
 
-    const ngCoreVersion = pkg.dependencies["@angular/core"];
+//    const ngCoreVersion = pkg.dependencies["@angular/core"];
 
     pkg.scripts["webpack:server"] = "webpack --config projects/ssr/webpack.server.config.js --progress --colors";
     pkg.scripts["build:ssr"]= "npm run build:client-and-server-bundles && npm run webpack:server";
@@ -168,8 +168,8 @@ function addDependenciesandCreateScripts(options:any): Rule {
     pkg.scripts["webpack:spider"]= "webpack --config projects/ssr/webpack.spider.config.js --progress --colors";
     
     
-    pkg.dependencies[ "@nguniversal/module-map-ngfactory-loader"] = ngCoreVersion;
-    pkg.dependencies["@nguniversal/express-engine"] = ngCoreVersion;
+    pkg.dependencies[ "@nguniversal/module-map-ngfactory-loader"] = "^6.0.0";
+    pkg.dependencies["@nguniversal/express-engine"] = "^6.0.0";
 
     pkg.devDependencies["webpack"] = "^4.8.3";
     pkg.devDependencies["ts-loader"] =  "^4.3.0";

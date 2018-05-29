@@ -1,0 +1,7 @@
+# Ignores TypeScript files, but keeps definitions.
+*.ts
+!server.ts
+!spider.ts
+!static.ts
+!copyIndex.ts
+!*.d.ts
