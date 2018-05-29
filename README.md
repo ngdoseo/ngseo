@@ -1,28 +1,33 @@
-# Getting Started With Schematics
+# Angular 6 Server Side Rendering Out of the box
 
-This repository is a basic Schematic implementation that serves as a starting point to create and publish Schematics to NPM.
+This repository is an extension of @schematics/angular including the universal side rendering tutorial steps in Angular.io and some helper methods to ease the use of Universal Server Side Rendering with Angular
 
-### Testing
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-To test locally, install `@angular-devkit/schematics` globally and use the `schematics` command line tool. That tool acts the same as the `generate` command of the Angular CLI, but also has a debug mode.
+### STATUS
 
-Check the documentation with
-```bash
-schematics --help
-```
+Net yet production ready !!!!!
 
-### Unit Testing
+### Get Started
+Install
+`npm i @ampgular/schematics` will install the reuired Files
 
-`npm run test` will run the unit tests, using Jasmine as a runner and test framework.
+Files Generation
+`ng g  @ampgular/schematics:ssr` will install the reuired Files
+or 
+`schematics @ampgular/schematics:ssr`
 
-### Publishing
+### Commands
 
-To publish, simply do:
+`npm run ssr` will run client and server builds and run a express server with the
 
-```bash
-npm run build
-npm publish
-```
+`npm run static` will creaate the static site following the predfined routes
 
-That's it!
+`npm run spider` will scrap the app returning the app-routes
+
+`npm run seo` will add the relevant files to improve SEO
+
+
+
+
  
