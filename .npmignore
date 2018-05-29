@@ -3,5 +3,6 @@
 !server.ts
 !spider.ts
 !static.ts
+!routes.ts
 !copyIndex.ts
 !*.d.ts

@@ -174,6 +174,7 @@ function addDependenciesandCreateScripts(options:any): Rule {
     pkg.devDependencies["webpack"] = "^4.8.3";
     pkg.devDependencies["ts-loader"] =  "^4.3.0";
     pkg.devDependencies["webpack-cli"] = "^2.1.3";
+    pkg.devDependencies["fs-extra"]="^6.0.1";
 
 
     host.overwrite(pkgPath, JSON.stringify(pkg, null, 2));
