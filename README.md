@@ -1,5 +1,5 @@
 # Angular 6 Server Side Rendering Out of the box
-[final code review](#seo) 
+
 
 
 
@@ -20,7 +20,10 @@ Files Generation
 or 
 `schematics @ampgular/schematics:ssr`
 
-### Commands
+### What can you do then...
+
+    1) Fist Line article
+    2) Scond Line article 
 
 `npm run ssr` will run client and server builds and run a express server with the
 
