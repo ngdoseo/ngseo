@@ -25,9 +25,17 @@ or
 
 `npm run spider` will scrap the app returning the app-routes
 
+
+
 `npm run seo` will add the relevant files to improve SEO
+Goto SEO(#seo}  
 
 
 
 
- 
+
+
+
+ bla bla bla bla
+ {@a seo}
+ ## SEO

@@ -1,6 +1,6 @@
 {
   "name": "@ampgular/schematics",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "universal",
   "scripts": {
     "build": "npm run tsc",
