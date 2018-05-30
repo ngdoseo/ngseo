@@ -63,15 +63,16 @@ jobs:
           <<: *whitelist
 workflows: 
   version: 2
+  filters:
+    branches:
+      only:
+        - master
   build:
     jobs:
       - checkout
       - test:
           requires:
             - checkout
-          branches:
-            ignore:
-              - devs
       - build:
           requires:
             - test
