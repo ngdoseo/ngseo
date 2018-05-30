@@ -21,22 +21,14 @@ jobs:
     <<: *defaults  
     steps:
       - checkout
+      - run: npm run test
 
-      - restore_cache:
-          keys:
-          - v1-dependencies-
-          - v1-dependencies-
-
-      - run: npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-
-
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
+  build:
+    <<: *defaults  
+    steps:
+      - checkout
+      - run: npm run build
+  
   deploy:
     <<: *defaults
     steps:
@@ -51,17 +43,20 @@ jobs:
             
 workflows:
   version: 2
-  test-deploy:
+  deploy:
+    ignore:
+    - develop
     jobs:
       - test:
           filters:
             tags:
               only: /^v.*/
+      - build:
+          requires:
+            - install
+            - test
       - deploy:
           requires:
-            - test
-          filters:
-            tags:
-              only: /^v.*/
-            branches:
-              ignore: /.*/
+            - build
+          only:
+            - production
