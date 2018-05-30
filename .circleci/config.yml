@@ -40,12 +40,12 @@ jobs:
       - run:
           name: Publish package
           command: npm publish
-            
+ 
+          
+
 workflows:
   version: 2
-  deploy:
-    ignore:
-    - develop
+  build-deploy:
     jobs:
       - test:
           requires:
