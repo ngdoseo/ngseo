@@ -53,8 +53,7 @@ jobs:
           root: ~/repo
           <<: *whitelist
   test:
-    docker:
-      - image: circleci/node:8.9.1
+    <<: *defaults
     steps:
       - attach_workspace:
           at: ~/repo
