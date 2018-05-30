@@ -22,8 +22,15 @@ or
 
 ### What can you do then...
 
-    1) Fist Line article
-    2) Scond Line article 
+    1) You can *build* your app, the server and client bundles [build](#build)
+       The options for the build will be picked from angular.json
+       and only using one command
+       `npm run build`
+
+
+    2) You can *serve* your server side app as you would normally ng serve, now here behind the scenes
+       we are building on --watch mode, webpacking and serving
+
 
 `npm run ssr` will run client and server builds and run a express server with the
 
