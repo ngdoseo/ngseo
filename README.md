@@ -1,5 +1,7 @@
 # Angular 6 Server Side Rendering Out of the box
 
+(#seo) 
+
 This repository is an extension of @schematics/angular including the universal side rendering tutorial steps in Angular.io and some helper methods to ease the use of Universal Server Side Rendering with Angular
 
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
@@ -28,9 +30,11 @@ or
 
 
 `npm run seo` will add the relevant files to improve SEO
-Goto SEO(#seo}  
 
 
+sdasdas+
+
+sadasd
 
 
 
