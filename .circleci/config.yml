@@ -48,9 +48,8 @@ workflows:
     - develop
     jobs:
       - test:
-          filters:
-            tags:
-              only: /^v.*/
+          requires:
+            - install
       - build:
           requires:
             - install
