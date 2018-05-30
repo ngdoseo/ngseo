@@ -66,6 +66,9 @@ workflows:
   build:
     jobs:
       - checkout
+        branches:
+            ignore:
+              - devs
       - test:
           requires:
             - checkout
