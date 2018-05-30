@@ -3,9 +3,9 @@
   "version": "1.0.7",
   "description": "universal",
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "npm run tsc",
     "test": "npm run build && jasmine **/*_spec.js",
-    "tsc": "tsc"
+    "tsc": "tsc -p tsconfig.json"
   },
   "keywords": [
     "schematics"
