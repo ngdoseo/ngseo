@@ -24,9 +24,6 @@ version: 2
 jobs:
   checkout:
     <<: *defaults
-    branches:
-      only:
-        - master
     steps:
       - checkout
       - restore_cache:
@@ -72,6 +69,10 @@ workflows:
       - test:
           requires:
             - checkout
+          filters:
+            branches:
+              only:
+                - master
       - build:
           requires:
             - test
