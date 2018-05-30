@@ -70,3 +70,6 @@ workflows:
       - build:
           requires:
             - checkout
+      - test:
+          requires:
+            - checkout
