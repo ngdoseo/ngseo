@@ -7,6 +7,6 @@ jobs:
    build:
      docker:
        - image: circleci/node:8.9.1
-     steps:
-       - checkout
-       - run: echo "hello world"
+    steps:
+      - checkout
+      - run: npm run build
