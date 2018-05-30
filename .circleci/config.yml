@@ -15,7 +15,7 @@ jobs:
     steps:
       - checkout
       - run: npm install
-      - run: sudo apt-get install typescript
+      - run: sudo apt-get install typescript@2.7.2
     
   test:
     <<: *defaults  
