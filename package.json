@@ -18,7 +18,9 @@
     "@angular-devkit/schematics": "^0.6.5",
     "@types/jasmine": "^2.6.0",
     "@types/node": "^8.0.31",
-    "jasmine": "^2.8.0",
+    "jasmine": "^2.8.0"
+    },
+  "devDependencies": {
     "typescript": "^2.7.2"
   }
 }
