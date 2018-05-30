@@ -3,25 +3,10 @@
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
 version: 2
-
-defaults: &defaults
-  
-  docker:
-    - image: circleci/node:8.9.1
-
-jobs: 
-  build:
-    <<: *defaults  
-    steps:
-      - checkout
-      - run: npm run build
-  deploy:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
-      - run:
-          name: Publish package
-          command: npm publish  
+jobs:
+   build:
+     docker:
+       - image: circleci/node:8.9.1
+     steps:
+       - checkout
+       - run: echo "hello world"
