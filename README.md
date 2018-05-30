@@ -1,6 +1,7 @@
 # Angular 6 Server Side Rendering Out of the box
+[final code review](#seo) 
 
-(#seo) 
+
 
 This repository is an extension of @schematics/angular including the universal side rendering tutorial steps in Angular.io and some helper methods to ease the use of Universal Server Side Rendering with Angular
 
