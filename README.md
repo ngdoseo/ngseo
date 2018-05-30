@@ -37,5 +37,4 @@ Goto SEO(#seo}
 
 
  bla bla bla bla
- {@a seo}
  ## SEO
