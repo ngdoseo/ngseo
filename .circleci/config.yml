@@ -68,15 +68,15 @@ workflows:
       - checkout:
           filters:
             branches:
-              only:
-                - master
+              ignore:
+                - devs
       - test:
           requires:
             - checkout
           filters:
             branches:
               only:
-                - master
+                - devs
       - build:
           requires:
             - test
