@@ -39,22 +39,3 @@ jobs:
       - run:
           name: Publish package
           command: npm publish  
-workflows:
-  version: 2
-  build-deploy:
-    jobs:
-      - install
-      - test:
-          requires:
-            - install
-      - build:
-          requires:
-            - install
-            - test
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - production
