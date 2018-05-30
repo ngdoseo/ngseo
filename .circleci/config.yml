@@ -75,7 +75,7 @@ workflows:
             - checkout
           filters:
             branches:
-              only:
+              ignore:
                 - devs
       - build:
           requires:
