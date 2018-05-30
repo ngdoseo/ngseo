@@ -67,9 +67,6 @@ workflows:
   build:
     jobs:
       - checkout
-      - test:
-          requires:
-            - checkout
       - build:
           requires:
-            - test
+            - checkout
