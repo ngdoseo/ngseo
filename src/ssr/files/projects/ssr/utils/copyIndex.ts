@@ -1,6 +1,6 @@
 import {copy,emptyDir} from 'fs-extra';
 
-// emptyDir('dist/public').then(x=>
+// emptyDir(      'dist/public').then(x=>
 //   copy('dist/browser','dist/public')
 // );
 // const filterFunc = (src, dest) => {
