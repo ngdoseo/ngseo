@@ -51,5 +51,7 @@ workflows:
       - deploy:
           requires:
             - build
-          only:
-            - production
+          filters:
+            branches:
+              only:
+                - production
