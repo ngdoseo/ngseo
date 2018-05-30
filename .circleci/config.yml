@@ -2,11 +2,14 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:8.9.1
 version: 2
 jobs:
   build:
-    docker:
-      - image: circleci/node:8.9.1
+    <<: *defaults
     steps:
       - checkout
       - run: npm install
