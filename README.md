@@ -12,9 +12,9 @@ This repository is an extension of @schematics/angular including the universal s
 #### Main Features
 ![build](https://img.shields.io/badge/build-%201%2F1%20-brightgreen.svg)  
 ![serve](https://img.shields.io/badge/serve-%200%2F1%20-red.svg)   
-![spider](https://img.shields.io/badge/spider-%203%2F6%20-yellowgreen.svg) 
-![seo](https://img.shields.io/badge/seoclient-%201%2F8%20-red.svg)  
-![deploy](https://img.shields.io/badge/deployclient-%201%2F4%20-orange.svg)
+![spider](https://img.shields.io/badge/spider-%203%2F6%20-yellowgreen.svg)  
+![seo](https://img.shields.io/badge/seo-%201%2F8%20-red.svg)  
+![deploy](https://img.shields.io/badge/deploy-%201%2F4%20-orange.svg)
 ![deploy-client](https://img.shields.io/badge/deployclient-%200%2F1%20-red.svg)
 ![deploy-server](https://img.shields.io/badge/deployserver-%200%2F1%20-red.svg)
 ![deploy-static](https://img.shields.io/badge/deploystatic-%200%2F1%20-red.svg)
@@ -74,33 +74,50 @@ In the future this package will be shift with a small cli for the ease of use, f
 
 4.  You can with the command  with `npm run ssr:seo` SEO-ing your app whether you have a server side sendered `--server` or a client `--client`
 
+5.  You can make your app deploy ready with one command `npm run ssr:deploy` 
 
 ## Building a Server Side Rendered App
 
 The command  `npm run ssr:build` will launch two parallell builds , the normal client side build `ng build` with the same options as 
 
+### Status
+- [X] Command Structure
+- [X] Schematics Files Creation
+- [ ] Tests
+- [ ] Documentation
+
 ## Serving in Development a Server Side Rendered App
 
+### Status
+- [X] Command Structure
+- [X] Schematics Files Creation
+- [ ] Spawn the Processes
+- [ ] Tests
+- [ ] Documentation
 
 ## Spider the App Routes
+
+### Status
 - [X] Command Structure
 - [ ] Options Workflow
 - [X] Schematics Files Creation
 - [X] SSR Spider
 - [ ] Cliet App Spider
+- [ ] Tests
 - [ ] Documentation
 
 
 ## SEO-ing your app
 
 ### Status
-- [X] Command Structure
+- [✅] Command Structure
 - [ ] Options Workflow
 - [ ] Schematics Files Creation
 - [ ] Index.html workflow
 - [ ] `sitemap.xml` generator
 - [ ] Structure Data (JSON-LD) Infrastructure ready
 - [ ] Environment Variable Clien Static preparation
+- [ ] Tests
 - [ ] Documentation
 
 ## Deploy your app
@@ -113,7 +130,8 @@ The command  `npm run ssr:build` will launch two parallell builds , the normal c
 - [ ] Static Client Generation
 - [ ] Static SSR Generation
 - [ ] Dynamic SSR
-- [ ] Documentation 
+- [ ] Tests
+- [ ] Documentation
 
 
 ## Licence
