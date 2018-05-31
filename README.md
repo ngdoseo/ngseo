@@ -15,6 +15,18 @@ This repository is an extension of @schematics/angular including the universal s
 
 Net yet production ready !!!!!
 
+## Table of Contents
+
+* [Installation](#installation)
+* [Usage](#usage)
+* [Generating a New Project](#generating-and-serving-an-angular-project-via-a-development-server)
+* [Generating Components, Directives, Pipes and Services](#generating-components-directives-pipes-and-services)
+* [Updating Angular CLI](#updating-angular-cli)
+* [Development Hints for working on Angular CLI](#development-hints-for-working-on-angular-cli)
+* [Documentation](#documentation)
+* [License](#license)
+
+
 ### Get Started
 Install
 `npm i @ampgular/schematics` will install the reuired Files
