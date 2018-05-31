@@ -85,12 +85,20 @@ In the future this package will be shift with a small cli for the ease of use, f
 The command  `npm run ssr:build` will launch two parallell builds , the normal client side build `ng build` with the same options as 
 
 ## Serving in Development a Server Side Rendered App
-
+{: .gitlab-orange}
 
 ## Spider the App Routes
 
 
 ## SEO-ing your app
+
+## Deploy your app
+List of Features and Status
+* 
+* 
+
+## Licence
+MIT
 
 
 
