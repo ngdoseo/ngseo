@@ -9,6 +9,8 @@ This repository is an extension of @schematics/angular including the universal s
 [![CircleCI](https://circleci.com/gh/ampgular/schematics/tree/master.svg?style=svg)](https://circleci.com/gh/ampgular/schematics/tree/master)
 [![npm version](https://badge.fury.io/js/%40ampgular%2Fschematics.svg)](https://badge.fury.io/js/%40ampgular%2Fschematics)
 
+[(https://img.shields.io/badge/spider-%201%2F12%20-yellowgreen.svg)]
+
 ### STATUS
 
 Net yet production ready !!!!!
