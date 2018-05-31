@@ -1,17 +1,22 @@
 # Angular 6 Server Side Rendering Out of the box
 
-
-
-
 This repository is an extension of @schematics/angular including the universal side rendering tutorial steps in Angular.io and some helper methods to ease the use of Universal Server Side Rendering with Angular
 
+### STATUS
+
+#### devOps
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![CircleCI](https://circleci.com/gh/ampgular/schematics/tree/master.svg?style=svg)](https://circleci.com/gh/ampgular/schematics/tree/master)
 [![npm version](https://badge.fury.io/js/%40ampgular%2Fschematics.svg)](https://badge.fury.io/js/%40ampgular%2Fschematics)
 
-![features](https://img.shields.io/badge/spider-%201%2F12%20-yellowgreen.svg)
-
-### STATUS
+#### Main Features
+![build](https://img.shields.io/badge/build-%201%2F1%20-green.svg)
+![serve](https://img.shields.io/badge/serve-%200%2F1%20-red.svg)
+![deploy-server](https://img.shields.io/badge/deploy-server-%201%2F4%20-red.svg)
+![deploy-static](https://img.shields.io/badge/deploy-static-%201%2F5%20-red.svg)
+![spider](https://img.shields.io/badge/spider-%201%4F4%20-yellowgreen.svg)
+![seo-client](https://img.shields.io/badge/seo-client-%201%2F5%20-red.svg)
+![seo-server](https://img.shields.io/badge/seo-server-%201%2F5%20-red.svg)
 
 Net yet production ready !!!!!
 
