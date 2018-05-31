@@ -11,13 +11,13 @@ This repository is an extension of @schematics/angular including the universal s
 
 #### Main Features
 ![build](https://img.shields.io/badge/build-%201%2F1%20-brightgreen.svg)  
-![serve](https://img.shields.io/badge/serve-%200%2F1%20-red.svg) 
-![spider](https://img.shields.io/badge/spider-%201%2F4%20-yellowgreen.svg) 
-![seo-client](https://img.shields.io/badge/seoclient-%201%2F5%20-red.svg)  
-![seo-server](https://img.shields.io/badge/seoserver-%201%2F5%20-red.svg) 
-![deploy-client](https://img.shields.io/badge/deployclient-%201%2F2%20-orange.svg) 
-![deploy-server](https://img.shields.io/badge/deployserver-%201%2F4%20-red.svg)  
-![deploy-static](https://img.shields.io/badge/deploystatic-%201%2F5%20-red.svg)  
+![serve](https://img.shields.io/badge/serve-%200%2F1%20-red.svg)   
+![spider](https://img.shields.io/badge/spider-%203%2F6%20-yellowgreen.svg) 
+![seo](https://img.shields.io/badge/seoclient-%201%2F8%20-red.svg)  
+![deploy](https://img.shields.io/badge/deployclient-%201%2F4%20-orange.svg)
+![deploy-client](https://img.shields.io/badge/deployclient-%200%2F1%20-red.svg)
+![deploy-server](https://img.shields.io/badge/deployserver-%200%2F1%20-red.svg)
+![deploy-static](https://img.shields.io/badge/deploystatic-%200%2F1%20-red.svg)
 
 
 Net yet production ready !!!!!
@@ -75,11 +75,6 @@ In the future this package will be shift with a small cli for the ease of use, f
 4.  You can with the command  with `npm run ssr:seo` SEO-ing your app whether you have a server side sendered `--server` or a client `--client`
 
 
-
-
-
-`npm run seo` will add the relevant files to improve SEO
-
 ## Building a Server Side Rendered App
 
 The command  `npm run ssr:build` will launch two parallell builds , the normal client side build `ng build` with the same options as 
@@ -88,9 +83,25 @@ The command  `npm run ssr:build` will launch two parallell builds , the normal c
 
 
 ## Spider the App Routes
+- [X] Command Structure
+- [ ] Options Workflow
+- [X] Schematics Files Creation
+- [X] SSR Spider
+- [ ] Cliet App Spider
+- [ ] Documentation
 
 
 ## SEO-ing your app
+
+### Status
+- [X] Command Structure
+- [ ] Options Workflow
+- [ ] Schematics Files Creation
+- [ ] Index.html workflow
+- [ ] `sitemap.xml` generator
+- [ ] Structure Data (JSON-LD) Infrastructure ready
+- [ ] Environment Variable Clien Static preparation
+- [ ] Documentation
 
 ## Deploy your app
 
@@ -99,8 +110,11 @@ The command  `npm run ssr:build` will launch two parallell builds , the normal c
 - [ ] Options Workflow
 - [ ] Integrate SEO
 - [ ] Optimize html/css
-- [ ]  
-* 
+- [ ] Static Client Generation
+- [ ] Static SSR Generation
+- [ ] Dynamic SSR
+- [ ] Documentation 
+
 
 ## Licence
 MIT
