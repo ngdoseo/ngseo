@@ -22,10 +22,10 @@ Net yet production ready !!!!!
 
 ## Table of Contents
 
-* [Main Concepts](#concepts)
+* [Main Concepts](#main-concepts)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Generating a New Project](#generating-and-serving-an-angular-project-via-a-development-server)
+* [Building a Server Side Rendered App](#building-a-server-side-rendered-app)
 * [Generating Components, Directives, Pipes and Services](#generating-components-directives-pipes-and-services)
 * [Updating Angular CLI](#updating-angular-cli)
 * [Development Hints for working on Angular CLI](#development-hints-for-working-on-angular-cli)
@@ -33,7 +33,7 @@ Net yet production ready !!!!!
 * [License](#license)
 
 
-## Concepts
+## Main Concepts
 
 
 
@@ -74,14 +74,22 @@ In the future this package will be shift with a small cli for the ease of use, f
 
 `npm run seo` will add the relevant files to improve SEO
 
+## Building a Server Side Rendered App
 
-sdasdas+
+The command  `npm run ssr:build` will launch two parallell builds , the normal client side build `ng build` with the same options as 
 
-sadasd
-
-
-
+## Serving in Development a Server Side Rendered App
 
 
- bla bla bla bla
- ## SEO
+
+
+[comment]: <> (This is a comment, it will not be included)
+[comment]: <> (in  the output file unless you use it in)
+[comment]: <> (a reference style link.)
+Or you could go further:
+
+[//]: <> (This is also a comment.)
+//To do
+npm run ssr:serve
+
+
