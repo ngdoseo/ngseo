@@ -110,7 +110,7 @@ The command  `npm run ssr:build` will launch two parallell builds , the normal c
 ## SEO-ing your app
 
 ### Status
-- [✅] Command Structure
+✅ Command Structure
 - [ ] Options Workflow
 - [ ] Schematics Files Creation
 - [ ] Index.html workflow
