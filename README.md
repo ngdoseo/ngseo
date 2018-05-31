@@ -81,57 +81,57 @@ In the future this package will be shift with a small cli for the ease of use, f
 The command  `npm run ssr:build` will launch two parallell builds , the normal client side build `ng build` with the same options as 
 
 ### Status
-✅ Command Structure
-✅ Schematics Files Creation
-🔴 Tests
-🔴 Documentation
+✅ Command Structure  
+✅ Schematics Files Creation  
+🔴 Tests  
+🔴 Documentation  
 
 ## Serving in Development a Server Side Rendered App
 
 ### Status
-✅ Command Structure
-✅ Schematics Files Creation
-🔴 Spawn the Processes
-🔴 Tests
-🔴 Documentation
+✅ Command Structure  
+✅ Schematics Files Creation  
+🔴 Spawn the Processes  
+🔴 Tests  
+🔴 Documentation  
 
 ## Spider the App Routes
 
 ### Status
-✅ Command Structure
-🔴 Options Workflow
-✅ Schematics Files Creation
-✅ SSR Spider
-🔴 Cliet App Spider
-🔴 Tests
-🔴 Documentation
+✅ Command Structure  
+🔴 Options Workflow  
+✅ Schematics Files Creation  
+✅ SSR Spider  
+🔴 Cliet App Spider  
+🔴 Tests  
+🔴 Documentation  
 
 
 ## SEO-ing your app
 
 ### Status
-✅ Command Structure
-🔴 Options Workflow
-🔴 Schematics Files Creation
-🔴 Index.html workflow
-🔴 `sitemap.xml` generator
-🔴 Structure Data (JSON-LD) Infrastructure ready
-🔴 Environment Variable Clien Static preparation
-🔴 Tests
-🔴 Documentation
+✅ Command Structure  
+🔴 Options Workflow  
+🔴 Schematics Files Creation  
+🔴 Index.html workflow  
+🔴 `sitemap.xml` generator  
+🔴 Structure Data (JSON-LD) Infrastructure ready  
+🔴 Environment Variable Clien Static preparation  
+🔴 Tests  
+🔴 Documentation  
 
 ## Deploy your app
 
 ### Status
-✅ Command Structure
-🔴 Options Workflow
-🔴 Integrate SEO
-🔴 Optimize html/css
-🔴 Static Client Generation
-🔴 Static SSR Generation
-🔴 Dynamic SSR
-🔴 Tests
-🔴 Documentation
+✅ Command Structure  
+🔴 Options Workflow  
+🔴 Integrate SEO  
+🔴 Optimize html/css  
+🔴 Static Client Generation  
+🔴 Static SSR Generation  
+🔴 Dynamic SSR  
+🔴 Tests  
+🔴 Documentation  
 
 
 ## Licence
