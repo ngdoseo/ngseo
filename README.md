@@ -10,7 +10,7 @@ This repository is an extension of @schematics/angular including the universal s
 [![npm version](https://badge.fury.io/js/%40ampgular%2Fschematics.svg)](https://badge.fury.io/js/%40ampgular%2Fschematics)
 
 #### Main Features
-![build](https://img.shields.io/badge/build-%201%2F1%20-green.svg)  
+![build](https://img.shields.io/badge/build-%201%2F1%20-brightgreen.svg)  
 ![serve](https://img.shields.io/badge/serve-%200%2F1%20-red.svg)  
 ![deploy-server](https://img.shields.io/badge/deployserver-%201%2F4%20-red.svg)  
 ![deploy-static](https://img.shields.io/badge/deploystatic-%201%2F5%20-red.svg)  
