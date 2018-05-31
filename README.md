@@ -1,4 +1,4 @@
-# Angular 6 Server Side Rendering Out of the box
+# Angular 6 Prerender & Server Side Rendering Out of the box
 
 This repository is an extension of @schematics/angular including the universal side rendering tutorial steps in Angular.io and some helper methods to ease the use of Universal Server Side Rendering with Angular
 
@@ -23,6 +23,7 @@ Net yet production ready !!!!!
 ## Table of Contents
 
 * [Installation](#installation)
+* [Concepts Clarification](#concepts)
 * [Usage](#usage)
 * [Generating a New Project](#generating-and-serving-an-angular-project-via-a-development-server)
 * [Generating Components, Directives, Pipes and Services](#generating-components-directives-pipes-and-services)
@@ -32,14 +33,24 @@ Net yet production ready !!!!!
 * [License](#license)
 
 
-### Get Started
-Install
+## Concepts Clarification(#concepts)
+
+
+
+## Installation(#installation)
+
+First download and install the schematics package:
 `npm i @ampgular/schematics` will install the reuired Files
 
-Files Generation
+Seecond generate the files with the angular cli: 
 `ng g  @ampgular/schematics:ssr` will install the reuired Files
 or 
 `schematics @ampgular/schematics:ssr`
+
+
+## Usage(#usage)
+
+In the future this package will be shift with a small cli for the ease of use, for now the utilization will be done through some npm run commands predefined and options, a brief summary od the commands
 
 ### What can you do then...
 
