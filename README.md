@@ -48,7 +48,7 @@ or
 `schematics @ampgular/schematics:ssr`
 
 
-## Usage(#usage)
+## Usage
 
 In the future this package will be shift with a small cli for the ease of use, for now the utilization will be done through some npm run commands predefined and options, a brief summary od the commands
 
@@ -80,7 +80,10 @@ The command  `npm run ssr:build` will launch two parallell builds , the normal c
 
 ## Serving in Development a Server Side Rendered App
 
-
+<!---
+your comment goes here
+and here
+-->
 
 
 [comment]: <> (This is a comment, it will not be included)
