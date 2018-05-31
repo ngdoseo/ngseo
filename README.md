@@ -10,13 +10,13 @@ This repository is an extension of @schematics/angular including the universal s
 [![npm version](https://badge.fury.io/js/%40ampgular%2Fschematics.svg)](https://badge.fury.io/js/%40ampgular%2Fschematics)
 
 #### Main Features
-![build](https://img.shields.io/badge/build-%201%2F1%20-green.svg)
-![serve](https://img.shields.io/badge/serve-%200%2F1%20-red.svg)
-![deploy-server](https://img.shields.io/badge/deploy-server-%201%2F4%20-red.svg)
-![deploy-static](https://img.shields.io/badge/deploy-static-%201%2F5%20-red.svg)
-![spider](https://img.shields.io/badge/spider-%201%4F4%20-yellowgreen.svg)
-![seo-client](https://img.shields.io/badge/seo-client-%201%2F5%20-red.svg)
-![seo-server](https://img.shields.io/badge/seo-server-%201%2F5%20-red.svg)
+![build](https://img.shields.io/badge/build-%201%2F1%20-green.svg)  
+![serve](https://img.shields.io/badge/serve-%200%2F1%20-red.svg)  
+![deploy-server](https://img.shields.io/badge/deployserver-%201%2F4%20-red.svg)  
+![deploy-static](https://img.shields.io/badge/deploystatic-%201%2F5%20-red.svg)  
+![spider](https://img.shields.io/badge/spider-%201%2F4%20-yellowgreen.svg)  
+![seo-client](https://img.shields.io/badge/seoclient-%201%2F5%20-red.svg)  
+![seo-server](https://img.shields.io/badge/seoserver-%201%2F5%20-red.svg)  
 
 Net yet production ready !!!!!
 
