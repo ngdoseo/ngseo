@@ -22,8 +22,8 @@ Net yet production ready !!!!!
 
 ## Table of Contents
 
+* [Main Concepts](#concepts)
 * [Installation](#installation)
-* [Concepts Clarification](#concepts)
 * [Usage](#usage)
 * [Generating a New Project](#generating-and-serving-an-angular-project-via-a-development-server)
 * [Generating Components, Directives, Pipes and Services](#generating-components-directives-pipes-and-services)
@@ -33,11 +33,11 @@ Net yet production ready !!!!!
 * [License](#license)
 
 
-## Concepts Clarification(#concepts)
+## Concepts
 
 
 
-## Installation(#installation)
+## Installation
 
 First download and install the schematics package:
 `npm i @ampgular/schematics` will install the reuired Files
