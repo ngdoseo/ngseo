@@ -43,6 +43,25 @@ Net yet production ready !!!!!
 
 ## Main Concepts
 
+#### Client APP
+
+A Client App is the classical Angular App, which will be bootstrapped and rendered in the browser. When we create with the CLI a `ng new myAwesomeApp` the result is a client app. 
+* The user experience by first load is penalyzed because the user don´t see relevant content until app is bootstrapped.
+* The Google Bot (responsibile for crawling pages and ) will index the pages and process teh relevant structure data without problems as is able to wait the boostrapp phase. 
+* Other search Bots (bing, ask,..etc) won´t be able to index the content as their result when visit the page is a empty `<app-root></app-root>` 
+* Social Sharing of content Twitter, Fcebook, etc.. will be disable too.
+
+In Summary, if discovery by search boots, 
+
+#### Server Side Rendered APP
+
+The Server Side Render process happen  in a server environment (not in a browser) and return for each route the representtion of the page as a html string. What we call then a Server Side Rendered App is an App which for each requested route have two parts.
+1.  A html representation of page server rendered `<app-root> <h1> I am a rendered APP</h1>....</app-root>` 
+2.  The client App as described above which after bootstrap will take control and behave like a normal client app.
+
+
+
+
 
 
 ## Installation
