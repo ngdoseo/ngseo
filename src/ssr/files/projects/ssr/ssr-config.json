@@ -1,0 +1,14 @@
+{
+  "spider":{
+    "ignore":[
+        "/detail/*",
+         "/dash*",
+      "/detail/12"
+    ],
+      "whitelist":[
+     ],
+     "add":[
+     
+     ]
+  }
+}
