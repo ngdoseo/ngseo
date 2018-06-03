@@ -24,6 +24,7 @@ Net yet production ready !!!!!
 
 ## Table of Contents
 
+* [How To Start](#how-to-start)
 * [Main Concepts](#main-concepts)
 * [Common Use Cases](#comon-use-cases)
     * [Client App with SEO](*client-app-with-seo)
@@ -41,6 +42,20 @@ Net yet production ready !!!!!
 * [License](#license)
 
 
+## How to Start
+
+* New to Angular  
+ If you just came to Angular I would suggest you start right away with the `serve side rendered`, being from begininng aware of the limitations will ensure you achieve a smooth server side render process and will give you the opportunity and follow the guide here.
+
+* I have already a Client App (classical `ng app`)
+ In this case propably the best way to achieve a good and quick result is to focus on 
+
+* I have already a Server Side Rendered App 
+ Then you have the big part of the job done, Our package can support you with helper methods...
+    - If you want a prerender site, with help our comamnds the `spider` and `deploy:static` you can automatic prepare your site for deployment. 
+
+
+
 ## Main Concepts
 
 #### Client APP
@@ -55,13 +70,20 @@ In Summary, if discovery by search boots,
 
 #### Server Side Rendered APP
 
-The Server Side Render process happen  in a server environment (not in a browser) and return for each route the representtion of the page as a html string. What we call then a Server Side Rendered App is an App which for each requested route have two parts.
+The Server Side Render process happen  in a server environment (not in a browser) and return for each route the representation of the page as a html string. What we call then a Server Side Rendered App is an App which for each requested route have two parts.
 1.  A html representation of page server rendered `<app-root> <h1> I am a rendered APP</h1>....</app-root>` 
 2.  The client App as described above which after bootstrap will take control and behave like a normal client app.
 
+The process by which the html 'screenshot' will be generated can be done dynamically 'on the fly' by the time the user request the page or prepared in advance for every route. The rendering in advance is also called "prerendering".
 
 
+#### Static Sites aka Prerendered Sites
 
+A prerendered site has for each _to discover Route_ a `html`document with the clien app (the same for every route) and the above mentioned `html screenshoot` which was p 
+
+#### Server Side Rendered Sites
+
+Is not blab alala
 
 
 ## Installation
