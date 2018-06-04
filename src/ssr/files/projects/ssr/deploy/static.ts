@@ -19,7 +19,7 @@ import { exec_child } from "../utils/spwan";
 
 
 
-exec_child("ng",["serve"]).subscribe(X=> 
+exec_child("ng",["serve"]).subscribe(X=>
   {
     console.log(X);
     exec_child("ng",[ "run toh-pt6:server"]).subscribe(p=> console.log('ahora si'))
