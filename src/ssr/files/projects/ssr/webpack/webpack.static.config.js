@@ -8,7 +8,8 @@ module.exports = {
   target: 'node',
   mode: 'none',
   // this makes sure we include node_modules and other 3rd party libraries
-  externals: [/node_modules/],
+  externals:  [nodeExternals()],
+  
   output: {
     path: DIST_FOLDER,
     filename: '[name].js'
