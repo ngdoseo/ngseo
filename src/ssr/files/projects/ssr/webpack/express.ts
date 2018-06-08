@@ -3,9 +3,17 @@ import 'zone.js/dist/zone-node';
 import 'reflect-metadata';
 
 import { enableProdMode } from '@angular/core';
-import { ROUTES } from "./routes";
+
 import * as express from 'express';
 import { join } from 'path';
+
+// Express Engine
+import { ngExpressEngine } from '@nguniversal/express-engine';
+// Import module map for lazy loading
+import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
+import { ROUTES } from '../routes/routes';
+import { readConfig } from '../utils/spwan';
+import { SSRCliOptions } from '../utils/models';
 
 // Faster server renders w/ Prod mode (dev mode never needed)
 enableProdMode();
@@ -14,16 +22,24 @@ enableProdMode();
 const app = express();
 
 const PORT = process.env.PORT || 4000;
-const DIST_FOLDER = join(process.cwd(), 'dist/<%= projectName %>');
-const DIST_FOLDER_SERVER = join(process.cwd(), 'dist//<%= projectName %>-server');
+let ssrConfig: SSRCliOptions = {
+  cliOptions: {
+    command:""
+  },
+  appOptions:{},
+  configOptions:readConfig(),
+};
 
-// * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../dist/<%= projectName %>-server/main');
+const {
+  AppServerModuleNgFactory,
+  LAZY_MODULE_MAP
+} = require("../../../" + ssrConfig.configOptions.paths.DIST_FOLDER_SERVER +"/main");
 
-// Express Engine
-import { ngExpressEngine } from '@nguniversal/express-engine';
-// Import module map for lazy loading
-import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
+
+const SSR_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.SSR_FOLDER);
+const DIST_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER);
+const DIST_FOLDER_SERVER = join(process.cwd(),ssrConfig.configOptions.paths.DIST_FOLDER_SERVER);
+
 
 app.engine('html', ngExpressEngine({
   bootstrap: AppServerModuleNgFactory,
@@ -33,7 +49,7 @@ app.engine('html', ngExpressEngine({
 }));
 
 app.set('view engine', 'html');
-app.set('views', join(DIST_FOLDER_SERVER));
+app.set('views', join(DIST_FOLDER));
 
 // TODO: implement data requests securely
 app.get('/api/*', (req, res) => {
@@ -62,9 +78,9 @@ else {
   });
 
 }
-
+process.stdout.write('listening');
 
 // Start up the Node server
 app.listen(PORT, () => {
-  console.log(`Node server listening on http://localhost:${PORT}`);
+  process.stdout.write(`Node server listening on http://localhost:${PORT}`);
 });

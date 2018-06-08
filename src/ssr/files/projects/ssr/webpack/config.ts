@@ -1,21 +1,33 @@
 const path = require('path');
 const webpack = require('webpack');
-const DIST_FOLDER = path.join(process.cwd(), 'dist/angular.io-example/');
+var nodeExternals = require('webpack-node-externals');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+import chalk from 'chalk';
 
-module.exports = {
-  entry: { static: './projects/ssr/static.ts' },
+
+export const webpackSSRConfig = {
+  entry: { static: './projects/ssr/webpack/static.ts' },
   resolve: { extensions: ['.js', '.ts'] },
   target: 'node',
   mode: 'none',
   // this makes sure we include node_modules and other 3rd party libraries
-  externals:  [nodeExternals()],
-  
+  externals: [nodeExternals(
+    {
+      modulesFromFile: {
+        include:['devDependencies']
+      }
+    }
+  )],
   output: {
-    path: DIST_FOLDER,
+    path: "",
     filename: '[name].js'
   },
   module: {
-    rules: [{ test: /\.ts$/, loader: 'ts-loader' }]
+    rules: [{
+      test: /\.ts$/,
+      loader: 'ts-loader',
+      exclude: [/node_modules\/puppeteer/] }
+    ]
   },
   plugins: [
     // Temporary Fix for issue: https://github.com/angular/angular/issues/11580
@@ -29,6 +41,10 @@ module.exports = {
       /(.+)?express(\\|\/)(.+)?/,
       path.join(__dirname, 'src'),
       {}
-    )
+    ),
+    new ProgressBarPlugin({
+        format: '  build [:bar] ' + chalk.green.bold(':percent') + ' (:elapsed seconds)',
+        clear: false
+      })
   ]
 };

@@ -14,17 +14,30 @@ enableProdMode();
 const app = express();
 
 const PORT = process.env.PORT || 4000;
-const DIST_FOLDER = join(process.cwd(), 'dist/angular.io-example');
-const DIST_FOLDER_SERVER = join(process.cwd(), 'dist//angular.io-example-server');
+let ssrConfig: SSRCliOptions = {
+  cliOptions: {
+    command:""
+  },
+  appOptions:{},
+  configOptions:readConfig(),
+};
 
-// * NOTE :: leave this as require() since this file is built Dynamically from webpack
-const { AppServerModuleNgFactory, LAZY_MODULE_MAP } = require('../../dist/angular.io-example-server/main');
+const {
+  AppServerModuleNgFactory,
+  LAZY_MODULE_MAP
+} = require("../../../" + ssrConfig.configOptions.paths.DIST_FOLDER_SERVER +"/main");
 
+
+const SSR_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.SSR_FOLDER);
+const DIST_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER);
+const DIST_FOLDER_SERVER = join(process.cwd(),ssrConfig.configOptions.paths.DIST_FOLDER_SERVER);
 // Express Engine
 import { ngExpressEngine } from '@nguniversal/express-engine';
 // Import module map for lazy loading
 import { provideModuleMap } from '@nguniversal/module-map-ngfactory-loader';
 import { ROUTES } from '../routes/routes';
+import { readConfig } from '../utils/spwan';
+import { SSRCliOptions } from '../utils/models';
 
 app.engine('html', ngExpressEngine({
   bootstrap: AppServerModuleNgFactory,

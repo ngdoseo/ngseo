@@ -34,11 +34,13 @@ enableProdMode();
 import { createWindow, createDocument } from "domino";
 import { ReplaySubject } from "rxjs";
 import { interval } from 'rxjs';
-import { exec_child, checkIgnoredRoutes, checkEnsuredRoutes, readConfig, configOptions, } from "./utils/spwan";
+import { exec_child, checkIgnoredRoutes, checkEnsuredRoutes, readConfig } from '../utils/spwan';
 import { map, switchMap } from 'rxjs/operators';
-import { ROUTES } from "./routes/routes";
+import { ROUTES } from "../routes/routes";
+import { SSRCliOptions } from "../utils/models";
 
 interface spiderOptions {
+  force:boolean,
   ignore:string[],
   whitelist:string[],
   add:string[],
@@ -50,24 +52,34 @@ let options = {}
 let spiderConfig:spiderOptions = readConfig().spider;
 
 let route = "";
-const SSR_FOLDER = join(process.cwd(), 'projects/ssr');
-const DIST_FOLDER = join(process.cwd(), 'dist/angular.io-example');
-const DIST_FOLDER_SERVER = join(process.cwd(), 'dist/angular.io-example-server');
-const SRC_FOLDER = join(process.cwd(), "src");
-// Our index.html we'll use as our template
-const indexTemplate = readFileSync(
-  join(SRC_FOLDER , "index.html")
-).toString();
 
-// * NOTE :: leave this as require() since this file is built Dynamically from webpack
+
+// Our index.html we'll use as our template
+
+let ssrConfig: SSRCliOptions = {
+  cliOptions: {
+    command:""
+  },
+  appOptions:{},
+  configOptions:readConfig(),
+};
+
 const {
   AppServerModuleNgFactory,
   LAZY_MODULE_MAP
-} = require("../../dist/angular.io-example-server/main");
+} = require("../../../" + ssrConfig.configOptions.paths.DIST_FOLDER_SERVER +"/main");
 
 const {
   provideModuleMap
 } = require("@nguniversal/module-map-ngfactory-loader");
+const SSR_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.SSR_FOLDER);
+const DIST_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER);
+const DIST_FOLDER_SERVER = join(process.cwd(),ssrConfig.configOptions.paths.DIST_FOLDER_SERVER);
+const SRC_FOLDER = join(process.cwd(), "src");
+const indexTemplate = readFileSync(
+  join(SRC_FOLDER , "index.html")
+).toString();
+
 
 const routesSpider: string[] = [];
 const routesDone: string[] = [];
@@ -75,48 +87,51 @@ const routesDone: string[] = [];
 routesSpider.push(route);
 spiderConfig.add.forEach(x=> routesSpider.push(x));
 
-console.log(spiderConfig.add);
-console.log(routesSpider);
-
-let url;
 let i: number = 0;
 const routesLen = ROUTES.length;
-const renderURL = new ReplaySubject<string[]>(100);
-
+const renderURL = new ReplaySubject<string>(100);
+let url = ""
 renderURL.subscribe(
-  (options: string[]) => {
-    
-        this.url = options[0];
+  (options: string) => {
+        console.log(options);
+       url  = options;
 
-       
-        renderEachUrl([this.url,options[1]])
-  
+
+        renderEachUrl(url)
+
 
   },
   error => {
-    console.log(`error: at ${this.url}`  );
+    console.log(`error: at ${url}`  );
     let introText = `export const ROUTESSPIDER`
-     writeFileSync(resolve(SSR_FOLDER  + '/routes-spider.ts'),introText + "OK =" + JSON.stringify(routesDone));
-     writeFileSync(resolve(SSR_FOLDER  + '/routes-spider.nok.ts'),introText + "NOK =" + JSON.stringify(routesSpider));
+     writeFileSync(resolve(SSR_FOLDER  + '/routes/routes-spider.ts'),introText + "OK =" + JSON.stringify(routesDone));
+     writeFileSync(resolve(SSR_FOLDER  + '/routes/routes-spider.nok.ts'),introText + "NOK =" + JSON.stringify(routesSpider));
     },
   () => {
-    console.log(`finish last url: ${this.url}`);
+    console.log(`finish last url: ${url}`);
+
+    if (spiderConfig.force)
+    {
+      let introROUTESText = `export const ROUTES = `
+      writeFileSync(resolve(SSR_FOLDER  + '/routes/routes.ts'),introROUTESText + JSON.stringify(routesDone));
+
+    }
     let introText = `export const ROUTESSPIDER = `
-     writeFileSync(resolve(SSR_FOLDER  + '/routes-spider.ts'),introText + JSON.stringify(routesDone));
+     writeFileSync(resolve(SSR_FOLDER  + '/routes/routes-spider.ts'),introText + JSON.stringify(routesDone));
 
 
   }
 );
 
-function renderEachUrl(url:string[]): void {
+function renderEachUrl(url:string): void {
 
     renderModuleFactory(AppServerModuleNgFactory, {
         document: indexTemplate,
-        url: url[0],
+        url: url,
         extraProviders: [provideModuleMap(LAZY_MODULE_MAP)]
       })
         .then(html => {
-          routesDone.push(url[0]);
+          routesDone.push(url);
 
           var document = createDocument(html);
           var body = document.querySelector("body");
@@ -125,8 +140,8 @@ function renderEachUrl(url:string[]): void {
           for (let index = 0; index < h1.length; index++) {
             let attr = h1.item(index).getAttribute("href");
 
-       
-            if ( routesDone.indexOf(attr)== -1 && (checkIgnoredRoutes(spiderConfig.ignore,attr) || 
+
+            if ( routesDone.indexOf(attr)== -1 && (checkIgnoredRoutes(spiderConfig.ignore,attr) ||
             checkEnsuredRoutes(spiderConfig.whitelist,attr))
            )
             {
@@ -157,7 +172,7 @@ function renderEachUrl(url:string[]): void {
           }
           else{
 
-            renderURL.next([routesSpider[0],url[1]])
+            renderURL.next(routesSpider[0])
           }
 
 
@@ -171,9 +186,8 @@ function renderEachUrl(url:string[]): void {
 
 }
 
+renderURL.next(routesSpider[0])
 
 
-  exec_child('ng',['run', 'angular.io-example:server'])
-  .subscribe(x=>  renderURL.next([routesSpider[0],'server']) );
 
 
