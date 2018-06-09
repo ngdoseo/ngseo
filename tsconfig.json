@@ -5,29 +5,32 @@
       "es2017",
       "dom"
     ],
+    "declaration": true,
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
-    "noUnusedParameters": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "noUnusedParameters": false,
     "noUnusedLocals": true,
     "rootDir": "src/",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
+    //"outDir": "dist",
     "target": "es6",
     "types": [
       "jasmine",
       "node"
     ]
   },
+  
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "src/*/files/**"
+    "src/*/files/**/*"
   ]
 }

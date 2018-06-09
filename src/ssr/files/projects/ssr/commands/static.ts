@@ -62,10 +62,11 @@ export default class StaticCommand extends SSRCommand {
   private url: string;
   private newCrome: ChromeRenderer;
   private pageOptimizer: PageOptimizer;
-  private appServer: any;
+
   private i: number;
   private ssrOptions: SSRCliOptions;
   private initialized = false;
+  public appServerNew: express.Application;
   public options: Option[] = [];
   validate(options: any): boolean | Promise<boolean> {
     if (!options._[0]) {
@@ -87,6 +88,7 @@ export default class StaticCommand extends SSRCommand {
 
     this.newCrome = new ChromeRenderer();
     this.pageOptimizer = new PageOptimizer();
+
     this.initialized = true;
   }
 
@@ -114,9 +116,12 @@ export default class StaticCommand extends SSRCommand {
       error => {
         console.log(`error: at ${this.url}`);
       },
-      () => {
+      async () => {
         this.logger.info(`finish last url: ${this.url}`);
         this.newCrome.close().then(() => this.logger.info("Browser Instance Down"));
+    
+       
+      
         process.exit();
       }
     );
@@ -141,16 +146,16 @@ export default class StaticCommand extends SSRCommand {
 
   async Launchclient() {
     try {
-      const app = express();
+    
 
-      let appServerNew = await Launchserver();
+      this.appServerNew = await Launchserver();
    
 
       const newCromeAwait = await this.newCrome.initialize();
    
 
-      await appServerNew.listen(4200, async () => {
-        await renderURL.next(ROUTES[0]);
+      await this.appServerNew.listen(4200, async () => {
+      await renderURL.next(ROUTES[0]);
       });
     } catch (err) {
       this.logger.warn(`server not started`);
@@ -160,17 +165,18 @@ export default class StaticCommand extends SSRCommand {
   async browserRenderEachUrl(route: string): Promise<void> {
     try {
       let html = await this.newCrome.render({
-        url: "http://localhost:4200/" + route
+        url: "http://localhost:4200" + route
       });
 
 
        this.logger.info(`Rendering: ${route}`);
+       this.logger.info(`Rendering: ${html.length}`);
 
       if (this.ssrOptions.configOptions.static.optimizecss) {
-        await this.pageOptimizer.optimizeCss(html);
+        html = await this.pageOptimizer.optimizeCss(html);
       }
       if (this.ssrOptions.configOptions.static.minifyhtml) {
-        await this.pageOptimizer.minifyHtml(html);
+        html  = await this.pageOptimizer.minifyHtml(html);
       }
 
       let routesSplit = route.split("/");
@@ -188,6 +194,7 @@ export default class StaticCommand extends SSRCommand {
         checkRoute = checkRoute + "/" + routesSplit[index];
         var element = [index];
       }
+      console.log(route);
 
       writeFileSync(resolve(DIST_FOLDER + route + "/" + "index.html"), html);
 

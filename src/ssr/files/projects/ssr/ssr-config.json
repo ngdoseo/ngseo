@@ -26,8 +26,8 @@
      ]
   },
   "paths":{
-    "DIST_FOLDER":"dist/angular.io-example",
-    "DIST_FOLDER_SERVER":"dist/angular.io-example-server",
+    "DIST_FOLDER":"dist",
+    "DIST_FOLDER_SERVER":"dist-server",
     "SSR_FOLDER":"projects/ssr",
     "SRC_FOLDER":"src"
   }

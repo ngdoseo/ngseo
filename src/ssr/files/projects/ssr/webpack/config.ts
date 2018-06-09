@@ -11,10 +11,12 @@ export const webpackSSRConfig = {
   target: 'node',
   mode: 'none',
   // this makes sure we include node_modules and other 3rd party libraries
+  //externals: [],
   externals: [nodeExternals(
     {
       modulesFromFile: {
-        include:['devDependencies']
+        include:['devDependencies'],
+        exclude:['devDependencies[@angular/platform-server]']
       }
     }
   )],

@@ -17,7 +17,7 @@ import {
       
 
 import * as ts from "typescript";
-import { getWorkspace } from "../utility/config";
+import { getWorkspace, getWorkspacePath } from "../utility/config";
 import { strings, experimental } from "@angular-devkit/core";
 import {
   // getDecoratorMetadata,
@@ -31,13 +31,16 @@ function getClientProjectOptions(
   host: Tree, options: any,
 ): experimental.workspace.WorkspaceProject {
   const workspace = getWorkspace(host);
+
+
   if (!options.clientProject) {
     options.clientProject = workspace['defaultProject'];
   }
   if (!options.clientProject) {
     options.clientProject = Object.keys(workspace['projects'])[0];
+  
   }
-
+ 
   return options;
 }
 
@@ -48,7 +51,7 @@ function getClientProjectOptions(
 // }
 
 function externalUniversal(options: any, host: Tree): Rule {
-  //Check If Universal has already been launched
+
   const filePathServer = "/src/app/app.server.module.ts";
   let existsUniversal = host.exists(filePathServer);
   if (existsUniversal) {
@@ -57,39 +60,40 @@ function externalUniversal(options: any, host: Tree): Rule {
     };
   } else {
     //If universal has not yet been run get default project name
-    const workspace = getWorkspace(host);
-    if (options.clientProject === undefined) {
-      options.clientProject = workspace["defaultProject"];
-    }
+   
     return branchAndMerge(
       externalSchematic("@schematics/angular", "universal", options)
     );
   }
 }
 
-// function changeConfigPaths(options: any): Rule {
-//   return (host: Tree, context: SchematicContext) => {
-//     const workspace = getWorkspace(host);
-//     if (options.clientProject === undefined) {
-//       options.clientProject = workspace["defaultProject"];
-//     }
+function changeConfigPaths(options: any, host: Tree): Rule {
 
-//     const clientProject = workspace.projects[options.clientProject as string];
-//     if (!clientProject.architect) {
-//       throw new SchematicsException("Client project architect not found.");
-//     }
+  return (host: Tree) => {
 
-//     clientProject.architect.server.options.outputPath = "dist/server";
-//     clientProject.architect.build.options.outputPath = "dist";
-//     const workspacePath = getWorkspacePath(host);
-//     host.overwrite(workspacePath, JSON.stringify(workspace, null, 2));
+    const workspace = getWorkspace(host);
+   
+    const clientProject = workspace.projects[options.clientProject];
+  
+    clientProject.architect.server.options.outputPath = clientProject.architect.build.options.outputPath + "-server";
+     const workspacePath = getWorkspacePath(host);
+    host.overwrite(workspacePath, JSON.stringify(workspace, null, 2));
 
-//     return host;
-//   };
-// }
+    return host;
+  };
+}
 
-function createFiles(options: any): Rule {
+function createFiles(options: any, host: Tree): Rule {
+ 
   const projectName=options.clientProject;
+  const workspace = getWorkspace(host);
+ 
+  const clientProject = workspace.projects[options.clientProject as string];
+
+  const dist =  clientProject.architect.build.options.outputPath;
+ 
+  const distserver = dist + "-server"
+
   const templateSource = apply(url("./files"), [
     template({
       ...strings,
@@ -97,7 +101,9 @@ function createFiles(options: any): Rule {
       stripTsExtension: (s: string) => {
         return s.replace(/\.ts$/, "");
       },
-      projectName
+      projectName,
+      dist,
+      distserver
     }),
     move("")
   ]);
@@ -105,6 +111,7 @@ function createFiles(options: any): Rule {
 }
 
 function addModuleLoader(): Rule {
+  console.log('\n 678')
   return (host: Tree) => {
 
     host.getDir('src').visit(filePath => {
@@ -157,25 +164,23 @@ function addDependenciesandCreateScripts(options:any): Rule {
 
     const pkg = JSON.parse(buffer.toString());
 
-//    const ngCoreVersion = pkg.dependencies["@angular/core"];
 
-    pkg.scripts["webpack:server"] = "webpack --config projects/ssr/webpack.server.config.js --progress --colors";
-    pkg.scripts["build:ssr"]= "npm run build:client-and-server-bundles && npm run webpack:server";
-    pkg.scripts["serve:ssr"] = "node dist/"+ options.clientProject +"/server";
-    pkg.scripts["spider:ssr"] = "node dist/"+ options.clientProject +"/spider",
-    pkg.scripts["ssr"] = "npm run build:ssr && npm run serve:ssr";
-    pkg.scripts["build:client-and-server-bundles"] =  "ng build --prod && ng run "+ options.clientProject +":server  && ts-node projects/ssr/utils/copyIndex.ts";
-    pkg.scripts["webpack:spider"]= "webpack --config projects/ssr/webpack.spider.config.js --progress --colors";
-    
-    
+    pkg.scripts["ssr:client"] = "ts-node projects/ssr/ssr-cli.ts --client",
+    pkg.scripts["ssr:server"] =  "ts-node projects/ssr/ssr-cli.ts --server",
     pkg.dependencies[ "@nguniversal/module-map-ngfactory-loader"] = "^6.0.0";
     pkg.dependencies["@nguniversal/express-engine"] = "^6.0.0";
-
-    pkg.devDependencies["webpack"] = "^4.8.3";
-    pkg.devDependencies["ts-loader"] =  "^4.3.0";
-    pkg.devDependencies["webpack-cli"] = "^2.1.3";
-    pkg.devDependencies["fs-extra"]="^6.0.1";
-
+    pkg.dependencies["webpack"] = "^4.8.3";
+    pkg.dependencies["ts-loader"] =  "^4.3.0";
+    pkg.dependencies["fs-extra"]="^6.0.1";
+    pkg.dependencies["webpack-node-externals"]= "^1.7.2";
+    pkg.dependencies["progress-bar-webpack-plugin"]="1.11.0";
+    pkg.devDependencies["@types/html-minifier"]= "^3.5.2",
+    pkg.devDependencies["@types/minimatch"]= "^3.0.3",
+    pkg.devDependencies["html-minifier"]= "^3.5.16",
+    pkg.devDependencies["puppeteer"]= "^1.4.0",
+    pkg.devDependencies["purify-css"]= "^1.2.5",
+    pkg.devDependencies["yargs-parser"]= "^10.0.0"
+    delete pkg.devDependencies["@angular/platform-server"]
 
     host.overwrite(pkgPath, JSON.stringify(pkg, null, 2));
 
@@ -185,15 +190,16 @@ function addDependenciesandCreateScripts(options:any): Rule {
 
 export function ssr(options: any): Rule {
   return (host: Tree, context: SchematicContext) => {
-
+ 
     options = getClientProjectOptions(host,options);
-  
+
     return chain([
       externalUniversal(options, host),
-     // changeConfigPaths(options),
+     changeConfigPaths(options,host),
       addModuleLoader(),
-      createFiles(options),
+      createFiles(options,host),
       addDependenciesandCreateScripts(options)
     ])(host, context);
   };
-}
+};
+

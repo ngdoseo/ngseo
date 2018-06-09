@@ -11,7 +11,7 @@ import { resolve, basename, join } from "path";
 import { minify } from "html-minifier";
 
 import * as express from 'express';
-import { Launchserver } from "../utils/expressserver";
+import { Launchserver, LaunchStaticServer } from "../utils/expressserver";
 import { ROUTES } from "../routes/routes";
 
 import { createWindow, createDocument } from "domino";
@@ -109,10 +109,10 @@ export default class ExpressCommand extends SSRCommand {
       error => {
         this.logger.info(`error: at ${this.url}`);
       },
-      () => {
+      async () => {
         this.logger.info(`Finish last URL: ${this.url}`);
-        this.newCrome.close().then(() => this.logger.info("SERVER LISTENING on http://localhost:4200"));
-       
+        this.newCrome.close().then(() => this.logger.info("Closing Chrome Chromium"));
+        await LaunchStaticServer();
         //process.exit();
       }
     );
@@ -145,8 +145,8 @@ export default class ExpressCommand extends SSRCommand {
       const aqui = await this.newCrome.initialize();
     
 
-      await this.appServerNew.listen(4200, async () => {
-        await renderURL.next(ROUTES[0]);
+      await this.appServerNew.listen(4200,  () => {
+         renderURL.next(ROUTES[0]);
       });
     } catch (err) {
       this.logger.info(`server not started`);
@@ -155,13 +155,19 @@ export default class ExpressCommand extends SSRCommand {
 
   async browserRenderEachUrl(route: string): Promise<void> {
     try {
-      const htmlRaw = await this.newCrome.render({
+      let html = await this.newCrome.render({
         url: "http://localhost:4200/" + route
       });
 
       this.logger.info(`Rendering: ${route}`);
+      this.logger.info(`Rendering: ${html.length}`);
 
-      const html = htmlRaw; //await pageOptimizer.optimizeCss(htmlRaw);
+      if (this.ssrOptions.configOptions.static.optimizecss) {
+        html = await this.pageOptimizer.optimizeCss(html);
+      }
+      if (this.ssrOptions.configOptions.static.minifyhtml) {
+        html  = await this.pageOptimizer.minifyHtml(html);
+      }
 
       let routesSplit = route.split("/");
       let checkRoute = DIST_FOLDER;
