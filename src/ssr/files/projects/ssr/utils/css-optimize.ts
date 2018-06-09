@@ -31,26 +31,32 @@ const configMinify = {
   removeTagWhitespace: true
 };
 
-let ssrConfig: SSRCliOptions = {
-  cliOptions: {
-    command:""
-  },
-  appOptions:{},
-  configOptions:readConfig(),
-};
 
-
-const DIST_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER);
 
 
 export class PageOptimizer {
   private globalCss: string;
   public initialized: boolean = false;
-  constructor() {}
+  public DIST_FOLDER:string;
+  public ssrConfig:SSRCliOptions;
+  
+  
+  
+  constructor() {
+    this.ssrConfig = {
+      cliOptions: {
+        command:""
+      },
+      appOptions:{},
+      configOptions:readConfig(),
+    };
+   this.DIST_FOLDER = join(process.cwd(), this.ssrConfig.configOptions.paths.DIST_FOLDER);
+ 
+  }
 
   async initialize(): Promise<boolean> {
     if (!this.initialized) {
-      const DistFiles: any[] = readdirSync(DIST_FOLDER, "utf-8");
+      const DistFiles: any[] = readdirSync(this.DIST_FOLDER, "utf-8");
 
       const CssFiles = DistFiles.filter(
         filter("styles*.css", { matchBase: true })
@@ -60,7 +66,7 @@ export class PageOptimizer {
         throw "ERROR: Styles css File not found in dist folder or found more than one  ";
       }
 
-      this.globalCss = readFileSync(join(DIST_FOLDER, CssFiles[0])).toString();
+      this.globalCss = readFileSync(join(this.DIST_FOLDER, CssFiles[0].toString())).toString();
       this.initialized = true;
     }
     return true;
@@ -90,7 +96,7 @@ export class PageOptimizer {
     });
 
     const newStyle = document.createElement("style");
-    newStyle.setAttribute("ng-transition", "serverApp");
+    newStyle.setAttribute("ng-transition",this.ssrConfig.configOptions.serverapp );
     newStyle.textContent = newcss;
     head.appendChild(newStyle);
 
