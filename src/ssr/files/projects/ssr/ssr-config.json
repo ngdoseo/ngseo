@@ -1,5 +1,6 @@
 {
-  "projectname":"angular.io-example",
+  "projectname":"",
+  "serverapp":"",
   "defaults":{
     "platform":"client",
     "deploy":"static"

@@ -16,6 +16,7 @@ export interface CliOptions {
 
 export interface ConfigOptions {
   projectname:string,
+  serverapp:string,
   defaults: {
     platform:string,
     deploy:string,

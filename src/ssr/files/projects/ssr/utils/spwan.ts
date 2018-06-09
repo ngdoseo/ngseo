@@ -72,15 +72,13 @@ export function exec_child(
       cmd = "cmd.exe";
       spawnOptions["stdio"] = "pipe";
     }
-    // const spawnOptions: SpawnOptions = { cwd: getSystemPath(_root) };
-
-
-
+    
     const childProcess = spawn(cmd, args, spawnOptions);
 
     childProcess.stdout.on("data", (data: Buffer) => {
+    let printString = cmd=="build"?data.toString("utf-8")+"\n":data.toString("utf-8");
 
-      logger.warn(data.toString("utf-8"));
+      logger.warn(printString);
 
 
     });
@@ -89,29 +87,14 @@ export function exec_child(
       "data",
       (data: Buffer) =>
         {
-          logger.info(data.toString("utf-8"));
+          let printString = cmd=="build"?data.toString("utf-8")+"\n":data.toString("utf-8");
+
+          logger.info(printString);
         //  console.log("javier    " + data.toString() + "\n");
         }
     );
 
 
-  //   childProcess.stdout.on('data', function(data) {
-  //     console.log('stdout: jav ' + data);
-  //     //Here is where the output goes
-  // });
-  //   childProcess.stderr.on('data', function(data) {
-  //     console.log('stderr:jav2 ' + data);
-  //     //Here is where the error output goes
-  // });
-
-
-
-    // Create the error here so the stack shows who called this function.
-    // const err = new Error(
-    //   `Running "${cmd} ${args.join(" ")}" returned error code `
-    // );
-
-    // childProcess.stdout.pipe(process.stdout)
 
     childProcess.on("message", code => {
       console.log('dentro 10 del mensaje');
