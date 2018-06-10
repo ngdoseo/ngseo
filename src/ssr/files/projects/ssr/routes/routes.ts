@@ -1,1 +1,1 @@
-export const ROUTES = ["","/dashboard","/heroes","/detail/12","/detail/13","/detail/14","/detail/15","/detail/11","/detail/16","/detail/17","/detail/18","/detail/19","/detail/20"]
+export const ROUTES = [""]
