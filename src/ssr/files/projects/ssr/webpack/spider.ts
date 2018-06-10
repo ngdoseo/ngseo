@@ -108,7 +108,7 @@ renderURL.subscribe(
      writeFileSync(resolve(SSR_FOLDER  + '/routes/routes-spider.nok.ts'),introText + "NOK =" + JSON.stringify(routesSpider));
     },
   () => {
-    console.log(`finish last url: ${url}`);
+   console.log(`Finish last url: ${url} \n`);
 
     if (spiderConfig.force)
     {

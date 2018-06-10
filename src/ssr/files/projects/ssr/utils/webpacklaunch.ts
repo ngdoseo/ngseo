@@ -23,11 +23,9 @@ export async function webpackRun(command: string,logger: logging.Logger) {
   const DIST_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER);
   renderURL.subscribe((options: string) => {
 
+       logger.info('Launching Spawn Process \n')
+       exec_child("node", [ssrConfig.configOptions.paths.DIST_FOLDER + "/" + command],logger).subscribe(x => {
 
-    console.log('pase por aqu');
-    console.log(ssrConfig.configOptions.paths.DIST_FOLDER + "/" + command);
-    exec_child("node", [ssrConfig.configOptions.paths.DIST_FOLDER + "/" + command],logger).subscribe(x => {
-  
       process.exit();
     });
   });
@@ -52,7 +50,7 @@ export async function webpackRun(command: string,logger: logging.Logger) {
     const json = stats.toJson();
 
     renderURL.next(command);
- 
+
   };
   webpackCompiler.run(callback);
 }

@@ -95,10 +95,8 @@ export default class StaticCommand extends SSRCommand {
   public async run(options: SSRCliOptions) {
     this.ssrOptions = options;
 
-    process.stderr.write("Preparing the rendering of the Routes\n");
-    process.stderr.write(
-      this.ssrOptions.configOptions.defaults.platform.toString()
-    );
+    this.logger.info("Preparing the rendering of the Routes\n");
+
     let spiderConfig = this.ssrOptions.configOptions.spider;
 
     let route = "";
@@ -117,11 +115,11 @@ export default class StaticCommand extends SSRCommand {
         console.log(`error: at ${this.url}`);
       },
       async () => {
-        this.logger.info(`finish last url: ${this.url}`);
+        this.logger.info(`finish last url: ${this.url} \n`);
         this.newCrome.close().then(() => this.logger.info("Browser Instance Down"));
-    
-       
-      
+
+
+
         process.exit();
       }
     );
@@ -130,29 +128,29 @@ export default class StaticCommand extends SSRCommand {
   }
 
   async renderRoutes() {
- 
+
     if (this.ssrOptions.configOptions.static.optimizecss) {
       await this.pageOptimizer.initialize();
     }
 
- 
-  
+
+
     //process.stderr.write(this.ssrOptions.configOptions.defaults.platform,'y ssssss');
 
-  
+
     await this.Launchclient();
-   
+
   }
 
   async Launchclient() {
     try {
-    
+
 
       this.appServerNew = await Launchserver();
-   
+
 
       const newCromeAwait = await this.newCrome.initialize();
-   
+
 
       await this.appServerNew.listen(4200, async () => {
       await renderURL.next(ROUTES[0]);
@@ -170,7 +168,7 @@ export default class StaticCommand extends SSRCommand {
 
 
        this.logger.info(`Rendering: ${route}`);
-       this.logger.info(`Rendering: ${html.length}`);
+
 
       if (this.ssrOptions.configOptions.static.optimizecss) {
         html = await this.pageOptimizer.optimizeCss(html);

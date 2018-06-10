@@ -87,23 +87,23 @@ export default class SpiderCommand extends SSRCommand {
     this.initialized = true;
   }
   public async run(options: SSRCliOptions) {
-   
+
      this.ssrOptions=options;
      this.routesSpider.push(this.route);
     this.ssrOptions.configOptions.spider.add.forEach(x=> this.routesSpider.push(x));
-    
+
     let i: number = 0;
     const routesLen = ROUTES.length;
 
     this.renderURL.subscribe(
      async (options: string) => {
-    
+
             this.url = options;
-    
-     
+
+
          await this.scrapEachUrl(this.url)
-    
-    
+
+
       },
       error => {
         console.log(`error: at ${this.url}`  );
@@ -117,13 +117,13 @@ export default class SpiderCommand extends SSRCommand {
         {
           let introROUTESText = `export const ROUTES = `
           writeFileSync(resolve(SSR_FOLDER  + '/routes/routes.ts'),introROUTESText + JSON.stringify(this.routesDone));
-    
+
         }
         let introText = `export const ROUTESSPIDER = `
          writeFileSync(resolve(SSR_FOLDER  + '/routes/routes-spider.ts'),introText + JSON.stringify(this.routesDone));
          this.newCrome.close().then(() => console.log("Browser Instance Down"));
          process.exit();
-    
+
       }
     );
     await this.Launchclient();
@@ -134,10 +134,10 @@ export default class SpiderCommand extends SSRCommand {
       const app = express();
 
       let appServerNew = await Launchserver();
-   
+
 
       const aqui = await this.newCrome.initialize();
-   
+
 
       await appServerNew.listen(4200, async () => {
         await this.renderURL.next(this.routesSpider[0]);
@@ -152,7 +152,7 @@ export default class SpiderCommand extends SSRCommand {
         .render({ url: "http://localhost:4200/" + url })
         .then(html => {
           this.routesDone.push(url);
-
+          this.logger.info(`Route ${url} identified`)
           var document = createDocument(html);
           var body = document.querySelector("body");
 
@@ -176,7 +176,7 @@ export default class SpiderCommand extends SSRCommand {
           );
 
           //   console.log(routesSpider[0].substr(1,2));
-         console.log(this.routesSpider.length);
+
           if (this.routesSpider.length == 0) {
             this.renderURL.complete();
           } else {
@@ -185,7 +185,7 @@ export default class SpiderCommand extends SSRCommand {
         })
         .catch(error => {
           console.log(error);
-          console.log("soy un error");
+
         });
     }
   }

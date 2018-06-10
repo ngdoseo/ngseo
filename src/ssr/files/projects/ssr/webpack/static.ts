@@ -59,19 +59,16 @@ renderServer.subscribe(
     process.stdout.write('mi error')
   },
   () => {
-    console.log(`finish last url: `);
-    process.stdout.write('fini que no')
+    console.log(`Finish last url `);
+
      //  process.exit();
   }
 );
 
 
 async function renderRoutes() {
-  process.stderr.write('2');
-  // if (false) {
-  //   await this.pageOptimizer.initialize();
-  // }
-   process.stderr.write('justo antes');
+
+
 
        renderServer.next(ROUTES[0]);
 
@@ -136,17 +133,7 @@ async function renderEachUrl(route: string): Promise<void> {
   } else {
     renderServer.next(ROUTES[i]);
   }
-  // try {
-  //   const htmlOpti = html//await this.pageOptimizer.optimizeCss(html);
 
-  //   writeFileSync(
-  //     resolve(DIST_FOLDER + route + "/" + "index.html"),
-  //     htmlOpti
-  //   );
-  //   console.log(`Rendering: ${route} `);
-  // } catch (e) {
-  //   console.log("Error in optimizing", e);
-  // }
 })
 }
 

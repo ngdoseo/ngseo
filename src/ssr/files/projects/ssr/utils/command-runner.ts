@@ -57,6 +57,7 @@ export async function runCommand(
 
   if (flatArgv[2]==undefined)
   {
+   
     throw `You must choose a command from ${availableCommands} `;
   }
   let commandRequested:any = availableCommands.indexOf(flatArgv[2])

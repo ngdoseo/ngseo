@@ -1,5 +1,5 @@
 {
-  "projectname":"<% projectName %>",
+  "projectname":"<%= projectName %>",
   "serverapp":"",
   "defaults":{
     "platform":"client",
@@ -27,8 +27,8 @@
      ]
   },
   "paths":{
-    "DIST_FOLDER":"<% dist %>",
-    "DIST_FOLDER_SERVER":"<% distserver %>",
+    "DIST_FOLDER":"<%= dist %>",
+    "DIST_FOLDER_SERVER":"<%= distserver %>",
     "SSR_FOLDER":"projects/ssr",
     "SRC_FOLDER":"src"
   }

@@ -19,4 +19,4 @@ let ssrConfig: SSRCliOptions = {
     const clientBuild = exec_child("ng",["build","--prod"],logger)
     const serverBuild = exec_child("ng",["run",ssrConfig.configOptions.projectname + ":server"],logger)
     const zipbuild = zip(clientBuild,serverBuild);
-    zipbuild.subscribe(x=> console.log('XXXXX  build complete SERVER and CLIENT APPLICATION'))
+    zipbuild.subscribe(x=> console.log('Build completed SERVER and CLIENT APPLICATION'))

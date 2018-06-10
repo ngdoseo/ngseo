@@ -91,7 +91,7 @@ export default class ExpressCommand extends SSRCommand {
     this.ssrOptions = options;
 
     this.logger.info("Preparing Routes Rendering\n");
- 
+
     let spiderConfig = this.ssrOptions.configOptions.spider;
 
     let route = "";
@@ -132,18 +132,18 @@ export default class ExpressCommand extends SSRCommand {
     );
 
     await this.Launchclient();
-    console.log(4);
+
   }
 
   async Launchclient() {
     try {
-      
+
 
        this.appServerNew = await Launchserver();
 
 
       const aqui = await this.newCrome.initialize();
-    
+
 
       await this.appServerNew.listen(4200,  () => {
          renderURL.next(ROUTES[0]);
@@ -160,7 +160,7 @@ export default class ExpressCommand extends SSRCommand {
       });
 
       this.logger.info(`Rendering: ${route}`);
-      this.logger.info(`Rendering: ${html.length}`);
+  
 
       if (this.ssrOptions.configOptions.static.optimizecss) {
         html = await this.pageOptimizer.optimizeCss(html);
