@@ -11,12 +11,14 @@ This repository is an extension of @schematics/angular including the universal s
 
 
 #### Main Features (Status 2018-06-09)
-![build](https://img.shields.io/badge/build-%201%2F1%20-green.svg)  )   
+
+![build](https://img.shields.io/badge/build-%202%2F4%20-green.svg)  )   
 ![spider](https://img.shields.io/badge/spider-%205%2F7%20-green.svg)  
 ![seo](https://img.shields.io/badge/seo-%204%2F9%20-orange.svg)  
-![deploy-static](https://img.shields.io/badge/deploy-static-%205%2F8%20-green.svg)
-![express-static](https://img.shields.io/badge/express-static-%206%2F9%20-green.svg)
-![deploy-dynmaic](https://img.shields.io/badge/deploystatic-%200%2Fx%20-red.svg)
+![deploy-static](https://img.shields.io/badge/static-%205%2F8%20-green.svg)  
+![express-static](https://img.shields.io/badge/express-%206%2F9%20-green.svg)  
+![deploy-dynmaic](https://img.shields.io/badge/deploy-%200%2Fx%20-red.svg)  
+
 
 As per 09 June 2018 the major commands --build, --spider, --add-seo, --static, --express are already implemented.
 Next steps:
@@ -33,12 +35,14 @@ Net yet production ready !!!!!
 
 * [How To Start](#how-to-start)
 * [Main Concepts](#main-concepts)
-* [Common Use Cases](#comon-use-cases)
-    to be done -- * [Client App with SEO](*client-app-with-seo)
-    to be done --  * [Client App to Prerendered Static Site with SEO ](*client-app-to-prerendered-static-site-with-seo)
-    to be done -- * [SSR App to Static Site with SEO ](*ssr-app-to-static-site-with-seo)
-    to be done --     * [SSR App to Dynamic Server with SEO ](*ssr-app-to-dynamic-server-with-seo)
-    to be done -- * [SSR App Mix Dynamic and Static Site with SEO ](*ssr-app-mix-dynamic-and-static-site-with-seo)
+
+* [Common Use Cases](#comon-use-cases)  
+    to be done -- * [Client App with SEO](*client-app-with-seo)  
+    to be done --  * [Client App to Prerendered Static Site with SEO ](*client-app-to-prerendered-static-site-with-seo)  
+    to be done -- * [SSR App to Static Site with SEO ](*ssr-app-to-static-site-with-seo)  
+    to be done --     * [SSR App to Dynamic Server with SEO ](*ssr-app-to-dynamic-server-with-seo)  
+    to be done -- * [SSR App Mix Dynamic and Static Site with SEO ](*ssr-app-mix-dynamic-and-static-site-with-seo)  
+
 
 * [Installation](#installation)
 * [Usage](#usage)
