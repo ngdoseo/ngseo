@@ -9,6 +9,7 @@ This repository is an extension of @schematics/angular including the universal s
 [![CircleCI](https://circleci.com/gh/ampgular/schematics/tree/master.svg?style=svg)](https://circleci.com/gh/ampgular/schematics/tree/master)
 [![npm version](https://badge.fury.io/js/%40ampgular%2Fschematics.svg)](https://badge.fury.io/js/%40ampgular%2Fschematics)
 
+
 #### Main Features (Status 2018-06-09)
 ![build](https://img.shields.io/badge/build-%201%2F1%20-green.svg)  )   
 ![spider](https://img.shields.io/badge/spider-%205%2F7%20-green.svg)  
@@ -24,9 +25,11 @@ Next steps:
              Medium Post explaining the features and the project
 
 
+
 Net yet production ready !!!!!
 
 ## Table of Contents
+
 
 * [How To Start](#how-to-start)
 * [Main Concepts](#main-concepts)
@@ -36,6 +39,7 @@ Net yet production ready !!!!!
     to be done -- * [SSR App to Static Site with SEO ](*ssr-app-to-static-site-with-seo)
     to be done --     * [SSR App to Dynamic Server with SEO ](*ssr-app-to-dynamic-server-with-seo)
     to be done -- * [SSR App Mix Dynamic and Static Site with SEO ](*ssr-app-mix-dynamic-and-static-site-with-seo)
+
 * [Installation](#installation)
 * [Usage](#usage)
 * [Building a Server Side Rendered App](#building-a-server-side-rendered-app)
@@ -44,6 +48,7 @@ Net yet production ready !!!!!
 * [SEO-ing your app](#seo-ing-your-app)
 * [Deploy your app](#deploy-ing-your-app)
 * [License](#license)
+
 
 
 ## How to Start
@@ -88,7 +93,6 @@ A prerendered site has for each _to discover Route_ a `html`document with the cl
 
 #### Server Side Rendered Sites
 
-Is not blab alala
 
 
 ## Installation
@@ -111,6 +115,7 @@ In the future this package will be shift with a small cli for the ease of use, f
 1.  You can *build* your app, the server and client bundles [build](#build)
        The options for the build will be picked from angular.json
        and only using one command
+
        `npm run ssr:client -- --build` or for universal rendering `npm run ssr:server -- --build`
 
        
@@ -151,6 +156,9 @@ The command  `npm run ssr:platform -- --build` will launch two parallell builds 
 🔴 Documentation  
 
 
+The command  `npm run ssr:build` will launch two parallell builds , the normal client side build `ng build` with the same options as 
+
+
 ## SEO-ing your app
 
 ### Status
@@ -180,6 +188,7 @@ The command  `npm run ssr:platform -- --build` will launch two parallell builds 
 ## Create a static prerendered Site and spin a express server to test
 `npm run ssr:platform -- --express`
 
+
 ### Status
 ✅ Command Structure  
 ✅ Options Workflow  
@@ -191,6 +200,8 @@ The command  `npm run ssr:platform -- --build` will launch two parallell builds 
 🔴 Tests  
 🔴 Documentation  
 
+## SEO-ing your app
+
 
 
 ## Deploy your app to dynamic server side rendering
@@ -198,6 +209,8 @@ The command  `npm run ssr:platform -- --build` will launch two parallell builds 
 
 ### Status
 🔴 no yet started
+
+
 
 
 ## Licence
