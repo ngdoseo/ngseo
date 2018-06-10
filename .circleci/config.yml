@@ -2,61 +2,86 @@
 #
 # Check https://circleci.com/docs/2.0/language-javascript/ for more details
 #
-version: 2
-
 defaults: &defaults
   working_directory: ~/repo
   docker:
     - image: circleci/node:8.9.1
-
-
+whitelist: &whitelist
+  paths:
+    - .npmignore
+    - coverage/*
+    - dist/*
+    - node_modules/*
+    - src/*
+    - test/*
+    - CODE_OF_CONDUCT.md
+    - LICENSE.md
+    - package.json
+    - README.md
+    - tsconfig.json
+    - tslint.json
+version: 2
 jobs:
-  install:
+  checkout:
     <<: *defaults
     steps:
       - checkout
-      - run: npm install --no-save
-    
-  test:
-    <<: *defaults  
-    steps:
-      - checkout
-      - run: npm run test
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          - v1-dependencies-
 
+      - run:
+          name: Install Dependencies
+          command: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - persist_to_workspace:
+          root: ~/repo
+          <<: *whitelist
   build:
-    <<: *defaults  
-    steps:
-      - checkout
-      - run: npm run build
-  
-  deploy:
     <<: *defaults
     steps:
       - attach_workspace:
           at: ~/repo
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$npm_TOKEN" > ~/repo/.npmrc
-      - run:
-          name: Publish package
-          command: npm publish
-            
-workflows:
+      - run: npm run build
+      - persist_to_workspace:
+          root: ~/repo
+          <<: *whitelist
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: npm run test
+      - persist_to_workspace:
+          root: ~/repo
+          <<: *whitelist
+workflows: 
   version: 2
-  deploy:
-    ignore:
-    - develop
+  build:
     jobs:
-      - test:
+      - checkout:
           filters:
-            tags:
-              only: /^v.*/
+            branches:
+              ignore:
+                - devs
+      - test:
+          requires:
+            - checkout
+          filters:
+            branches:
+              ignore:
+                - devs
       - build:
           requires:
-            - install
             - test
-      - deploy:
-          requires:
-            - build
-          only:
-            - production
+          filters:
+            branches:
+              ignore:
+                - devs
+
