@@ -9,28 +9,37 @@ This repository is an extension of @schematics/angular including the universal s
 [![CircleCI](https://circleci.com/gh/ampgular/schematics/tree/master.svg?style=svg)](https://circleci.com/gh/ampgular/schematics/tree/master)
 [![npm version](https://badge.fury.io/js/%40ampgular%2Fschematics.svg)](https://badge.fury.io/js/%40ampgular%2Fschematics)
 
-#### Main Features
-![build](https://img.shields.io/badge/build-%201%2F1%20-brightgreen.svg)  
-![serve](https://img.shields.io/badge/serve-%200%2F1%20-red.svg)   
-![spider](https://img.shields.io/badge/spider-%203%2F6%20-yellowgreen.svg)  
-![seo](https://img.shields.io/badge/seo-%201%2F8%20-red.svg)  
-![deploy](https://img.shields.io/badge/deploy-%201%2F4%20-orange.svg)
-![deploy-client](https://img.shields.io/badge/deployclient-%200%2F1%20-red.svg)
-![deploy-server](https://img.shields.io/badge/deployserver-%200%2F1%20-red.svg)
-![deploy-static](https://img.shields.io/badge/deploystatic-%200%2F1%20-red.svg)
+
+#### Main Features (Status 2018-06-09)
+![build](https://img.shields.io/badge/build-%201%2F1%20-green.svg)  )   
+![spider](https://img.shields.io/badge/spider-%205%2F7%20-green.svg)  
+![seo](https://img.shields.io/badge/seo-%204%2F9%20-orange.svg)  
+![deploy-static](https://img.shields.io/badge/deploy-static-%205%2F8%20-green.svg)
+![express-static](https://img.shields.io/badge/express-static-%206%2F9%20-green.svg)
+![deploy-dynmaic](https://img.shields.io/badge/deploystatic-%200%2Fx%20-red.svg)
+
+As per 09 June 2018 the major commands --build, --spider, --add-seo, --static, --express are already implemented.
+Next steps:
+    18 June: Next features bunch (seo)
+    01 July: Cli interface served with the package 
+             Medium Post explaining the features and the project
+
 
 
 Net yet production ready !!!!!
 
 ## Table of Contents
 
+
+* [How To Start](#how-to-start)
 * [Main Concepts](#main-concepts)
 * [Common Use Cases](#comon-use-cases)
-    * [Client App with SEO](*client-app-with-seo)
-    * [Client App to Prerendered Static Site with SEO ](*client-app-to-prerendered-static-site-with-seo)
-    * [SSR App to Static Site with SEO ](*ssr-app-to-static-site-with-seo)
-    * [SSR App to Dynamic Server with SEO ](*ssr-app-to-dynamic-server-with-seo)
-    * [SSR App Mix Dynamic and Static Site with SEO ](*ssr-app-mix-dynamic-and-static-site-with-seo)
+    to be done -- * [Client App with SEO](*client-app-with-seo)
+    to be done --  * [Client App to Prerendered Static Site with SEO ](*client-app-to-prerendered-static-site-with-seo)
+    to be done -- * [SSR App to Static Site with SEO ](*ssr-app-to-static-site-with-seo)
+    to be done --     * [SSR App to Dynamic Server with SEO ](*ssr-app-to-dynamic-server-with-seo)
+    to be done -- * [SSR App Mix Dynamic and Static Site with SEO ](*ssr-app-mix-dynamic-and-static-site-with-seo)
+
 * [Installation](#installation)
 * [Usage](#usage)
 * [Building a Server Side Rendered App](#building-a-server-side-rendered-app)
@@ -41,7 +50,48 @@ Net yet production ready !!!!!
 * [License](#license)
 
 
+
+## How to Start
+
+* New to Angular  
+ If you just came to Angular I would suggest you start right away with the `serve side rendered`, being from begininng aware of the limitations will ensure you achieve a smooth server side render process and will give you the opportunity and follow the guide here.
+ `/* to be done */`
+
+* I have already a Client App (classical `ng app`)
+ In this case propably the best way to achieve a good and quick result is to focus on prerendering your app to a static site
+
+* I have already a Server Side Rendered App 
+ Then you have the big part of the job done, Our package can support you with helper methods...
+    - If you want a prerender site, with help our commands the `spider` and `static` you can automatic prepare your site for deployment. 
+
+
+
 ## Main Concepts
+
+#### Client APP
+
+A Client App is the classical Angular App, which will be bootstrapped and rendered in the browser. When we create with the CLI a `ng new myAwesomeApp` the result is a client app. 
+* The user experience by first load is penalyzed because the user don´t see relevant content until app is bootstrapped.
+* The Google Bot (responsibile for crawling pages and ) will index the pages and process teh relevant structure data without problems as is able to wait the boostrapp phase. 
+* Other search Bots (bing, ask,..etc) won´t be able to index the content as their result when visit the page is a empty `<app-root></app-root>` 
+* Social Sharing of content Twitter, Fcebook, etc.. will be disable too.
+
+In Summary, if discovery by search boots, 
+
+#### Server Side Rendered APP
+
+The Server Side Render process happen  in a server environment (not in a browser) and return for each route the representation of the page as a html string. What we call then a Server Side Rendered App is an App which for each requested route have two parts.
+1.  A html representation of page server rendered `<app-root> <h1> I am a rendered APP</h1>....</app-root>` 
+2.  The client App as described above which after bootstrap will take control and behave like a normal client app.
+
+The process by which the html 'screenshot' will be generated can be done dynamically 'on the fly' by the time the user request the page or prepared in advance for every route. The rendering in advance is also called "prerendering".
+
+
+#### Static Sites aka Prerendered Sites
+
+A prerendered site has for each _to discover Route_ a `html`document with the clien app (the same for every route) and the above mentioned `html screenshoot` which was p 
+
+#### Server Side Rendered Sites
 
 
 
@@ -65,20 +115,26 @@ In the future this package will be shift with a small cli for the ease of use, f
 1.  You can *build* your app, the server and client bundles [build](#build)
        The options for the build will be picked from angular.json
        and only using one command
-       `npm run ssr:build`
 
-2.  You can *serve* your server side app as you would normally ng serve, now here behind the scenes
-       we are building on --watch mode, webpacking and serving with the command    `npm run ssr:serve
+       `npm run ssr:client -- --build` or for universal rendering `npm run ssr:server -- --build`
 
-3.  You can automatizally route scraping your own app to create a routes file with `npm run ssr:spider`
+       
 
-4.  You can with the command  with `npm run ssr:seo` SEO-ing your app whether you have a server side sendered `--server` or a client `--client`
+2.  You can automatizally route scraping your own app to create a routes file with  
+`npm run ssr:client -- --spider` or for universal rendering `npm run ssr:server -- --spider`
 
-5.  You can make your app deploy ready with one command `npm run ssr:deploy` 
+3.  You can with the command  with `npm run ssr:client -- --add-seo` or for universal rendering `npm run ssr:server -- --sadd-seo`
+ SEO-ing your app whether you have a server side rendered.
+
+4.  You can automatizally make your app a prerender static site file with  
+`npm run ssr:client -- --static` or for universal rendering `npm run ssr:server -- --static`
+
+5.  You can automatizally ake your app a prerender static site and spin a express server with  
+`npm run ssr:client -- --express` or for universal rendering `npm run ssr:server -- --express`
 
 ## Building a Server Side Rendered App
 
-The command  `npm run ssr:build` will launch two parallell builds , the normal client side build `ng build` with the same options as 
+The command  `npm run ssr:platform -- --build` will launch two parallell builds , the normal client side build `ng build` with the same options as 
 
 ### Status
 ✅ Command Structure  
@@ -86,52 +142,75 @@ The command  `npm run ssr:build` will launch two parallell builds , the normal c
 🔴 Tests  
 🔴 Documentation  
 
-## Serving in Development a Server Side Rendered App
 
-### Status
-✅ Command Structure  
-✅ Schematics Files Creation  
-🔴 Spawn the Processes  
-🔴 Tests  
-🔴 Documentation  
 
 ## Spider the App Routes
 
 ### Status
 ✅ Command Structure  
-🔴 Options Workflow  
+✅ Options Workflow  
 ✅ Schematics Files Creation  
 ✅ SSR Spider  
-🔴 Cliet App Spider  
+✅ Cliet App Spider  
 🔴 Tests  
 🔴 Documentation  
+
+
+The command  `npm run ssr:build` will launch two parallell builds , the normal client side build `ng build` with the same options as 
 
 
 ## SEO-ing your app
 
 ### Status
 ✅ Command Structure  
-🔴 Options Workflow  
-🔴 Schematics Files Creation  
+✅ Options Workflow  
+✅ Schematics Files Creation  
 🔴 Index.html workflow  
-🔴 `sitemap.xml` generator  
+✅ `sitemap.xml` generator  
 🔴 Structure Data (JSON-LD) Infrastructure ready  
 🔴 Environment Variable Clien Static preparation  
 🔴 Tests  
 🔴 Documentation  
 
-## Deploy your app
+## Deploy your app to static prerendered Sites
+`npm run ssr:platform -- --static`
 
 ### Status
 ✅ Command Structure  
-🔴 Options Workflow  
+✅ Options Workflow  
 🔴 Integrate SEO  
-🔴 Optimize html/css  
-🔴 Static Client Generation  
-🔴 Static SSR Generation  
-🔴 Dynamic SSR  
+✅ Optimize html/css  
+✅ Static Client Generation  
+✅ Static SSR Generation  
 🔴 Tests  
 🔴 Documentation  
+
+## Create a static prerendered Site and spin a express server to test
+`npm run ssr:platform -- --express`
+
+
+### Status
+✅ Command Structure  
+✅ Options Workflow  
+🔴 Integrate SEO  
+✅ Optimize html/css  
+✅ Static Client Generation  
+✅ Static SSR Generation 
+✅ Spin Express Server 
+🔴 Tests  
+🔴 Documentation  
+
+## SEO-ing your app
+
+
+
+## Deploy your app to dynamic server side rendering
+`npm run ssr:platform -- --deploy`
+
+### Status
+🔴 no yet started
+
+
 
 
 ## Licence

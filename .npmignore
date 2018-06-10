@@ -1,8 +1,4 @@
 # Ignores TypeScript files, but keeps definitions.
-*.ts
-!server.ts
-!spider.ts
-!static.ts
-!routes.ts
-!copyIndex.ts
-!*.d.ts
+index.ts
+index_spec.ts
+

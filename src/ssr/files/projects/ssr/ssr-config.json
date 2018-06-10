@@ -1,0 +1,35 @@
+{
+  "projectname":"<%= projectName %>",
+  "serverapp":"",
+  "defaults":{
+    "platform":"client",
+    "deploy":"static"
+  },
+  "static":{
+    "optimizecss":true,
+    "minify-html":true
+
+  },
+  "seo":{
+    "website":"https://www.my-awesome-app.com",
+    "priority":1,
+    "changefreq":"weekly"
+
+  },
+  "spider":{
+    "force":true,
+    "ignore":[
+           ],
+      "whitelist":[
+     ],
+     "add":[
+
+     ]
+  },
+  "paths":{
+    "DIST_FOLDER":"<%= dist %>",
+    "DIST_FOLDER_SERVER":"<%= distserver %>",
+    "SSR_FOLDER":"projects/ssr",
+    "SRC_FOLDER":"src"
+  }
+}
