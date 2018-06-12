@@ -1,11 +1,14 @@
 {
   "name": "@ampgular/schematics",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "description": "universal",
   "scripts": {
     "build": "npm run tsc",
     "test": "npm run build && jasmine **/*_spec.js",
     "tsc": "tsc -p tsconfig.json"
+  },
+  "bin": {
+    "seo": "./bin/init"
   },
   "keywords": [
     "schematics"

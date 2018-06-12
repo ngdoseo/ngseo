@@ -1,4 +1,2 @@
-# Ignores TypeScript files, but keeps definitions.
-index.ts
-index_spec.ts
+
 
