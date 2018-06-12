@@ -15,6 +15,7 @@ import { renderModuleFactory } from "@angular/platform-server";
 import { readFileSync, existsSync, mkdirSync, writeFileSync } from "fs";
 import { join, resolve } from "path";
 import { PageOptimizer } from '../utils/css-optimize';
+import { copySync } from 'fs-extra';
 
 let ssrConfig: SSRCliOptions = {
   cliOptions: {
@@ -35,7 +36,7 @@ const {
 const SSR_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.SSR_FOLDER);
 const DIST_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER);
 const DIST_FOLDER_SERVER = join(process.cwd(),ssrConfig.configOptions.paths.DIST_FOLDER_SERVER);
-
+const PUBLIC_FOLDER = DIST_FOLDER + '-public';
 
 enableProdMode();
 
@@ -44,6 +45,14 @@ let pageOptimizer = new PageOptimizer();
 pageOptimizer.initialize();
 
 const renderServer = new ReplaySubject<string>(100);
+
+
+if (!existsSync(PUBLIC_FOLDER)) {
+  mkdirSync(join(PUBLIC_FOLDER));
+}
+process.stdout.write('Copying Dist Folder to Public Folder\n')
+copySync(DIST_FOLDER, PUBLIC_FOLDER);
+
 
 const indexTemplate = readFileSync(join(DIST_FOLDER, "index.html")).toString();
 let i = 0;
@@ -97,7 +106,7 @@ async function renderEachUrl(route: string): Promise<void> {
     html = await pageOptimizer.minifyHtml(html)
   }
   let routesSplit = route.split("/");
-  let checkRoute = DIST_FOLDER;
+  let checkRoute = PUBLIC_FOLDER;
   let filename = route
     .split("/")
     .join("-")
@@ -115,7 +124,7 @@ async function renderEachUrl(route: string): Promise<void> {
   if(route.length==0)
   {
     writeFileSync(
-      resolve(DIST_FOLDER  + "/index.html"),
+      resolve(PUBLIC_FOLDER  + "/index.html"),
       html
     );
   }

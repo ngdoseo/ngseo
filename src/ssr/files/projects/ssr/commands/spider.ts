@@ -19,17 +19,16 @@ import { ROUTES } from "../routes/routes";
 import { createWindow, createDocument } from "domino";
 import { ReplaySubject } from "rxjs";
 import { interval } from "rxjs";
-import { exec_child, readConfig } from "../utils/spwan";
+import { exec_child, readConfig, checkIgnoredRoutes, checkEnsuredRoutes } from "../utils/spwan";
 import { map, switchMap } from "rxjs/operators";
 import { ChromeRenderer } from "../utils/chrome";
 import { SSRCommand, CommandScope, Option } from "../utils/command";
 import { SSRCliOptions } from "../utils/models";
 import { PageOptimizer } from "../utils/css-optimize";
 import { Launchserver } from "../utils/expressserver";
+import { constants } from "os";
 
 
-//route = ""///es/wellness-y-bienestar-natural/cuidados-de-hammam";
-//const ROUTESX = matcharray(/\/tienda-cosmetica-natural/,ROUTES);
 let ssrConfig: SSRCliOptions = {
   cliOptions: {
     command:""
@@ -41,9 +40,7 @@ let ssrConfig: SSRCliOptions = {
 const SSR_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.SSR_FOLDER);
 const DIST_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER);
 const DIST_FOLDER_SERVER = join(process.cwd(),ssrConfig.configOptions.paths.DIST_FOLDER_SERVER);
-// Our index.html we'll use as our template
 
-// * NOTE :: leave this as require() since this file is built Dynamically from webpack
 
 
 export default class SpiderCommand extends SSRCommand {
@@ -88,7 +85,7 @@ export default class SpiderCommand extends SSRCommand {
   }
   public async run(options: SSRCliOptions) {
 
-     this.ssrOptions=options;
+     this.ssrOptions = options;
      this.routesSpider.push(this.route);
     this.ssrOptions.configOptions.spider.add.forEach(x=> this.routesSpider.push(x));
 
@@ -106,13 +103,13 @@ export default class SpiderCommand extends SSRCommand {
 
       },
       error => {
-        console.log(`error: at ${this.url}`  );
+        this.logger.warn(`error: at ${this.url}`  );
         let introText = `export const ROUTESSPIDER`
          writeFileSync(resolve(SSR_FOLDER  + '/routes/routes-spider.ts'),introText + "OK =" + JSON.stringify(this.routesDone));
          writeFileSync(resolve(SSR_FOLDER  + '/routes/routes-spider.nok.ts'),introText + "NOK =" + JSON.stringify(this.routesSpider));
         },
       () => {
-        console.log(`Finish with last url: ${this.url}`);
+        this.logger.info(`Finish with last url: ${this.url} \n`);
          if (this.ssrOptions.configOptions.spider.force)
         {
           let introROUTESText = `export const ROUTES = `
@@ -148,40 +145,68 @@ export default class SpiderCommand extends SSRCommand {
   }
 
    async scrapEachUrl(url: string) {
+
+
+    let ssrConfig: SSRCliOptions = {
+      cliOptions: {
+        command:""
+      },
+      appOptions:{},
+      configOptions:readConfig(),
+    };
+
+
+
       this.newCrome
-        .render({ url: "http://localhost:4200/" + url })
+        .render({ url: "http://localhost:4200" + url })
         .then(html => {
           this.routesDone.push(url);
-          this.logger.info(`Route ${url} identified`)
-          var document = createDocument(html);
+
+          const document = createDocument(html);
           var body = document.querySelector("body");
+          var aref = body.querySelectorAll("[href]");
 
-          var h1 = body.querySelectorAll("[href]");
+          for (let index = 0; index < aref.length; index++) {
+            let attr = aref.item(index).getAttribute("href");
 
-          for (let index = 0; index < h1.length; index++) {
-            let attr = h1.item(index).getAttribute("href");
-
-            if (this.routesDone.indexOf(attr) == -1) {
-              this.routesSpider.push(attr);
+             if ( this.routesDone.indexOf(attr)== -1 && attr.substr(0 , 1) === '/' && (checkIgnoredRoutes(ssrConfig.configOptions.spider.ignore,attr) ||
+            checkEnsuredRoutes(ssrConfig.configOptions.spider.whitelist,attr))
+           )
+            {
+                  this.routesSpider.push(attr);
             }
           }
 
-          do {
-            if (this.routesDone.indexOf(this.routesSpider[0]) != -1) {
-              this.routesSpider.splice(0, 1);
-            }
-          } while (
-            this.routesSpider.length != 0 &&
-            this.routesDone.indexOf(this.routesSpider[0]) != -1
-          );
 
-          //   console.log(routesSpider[0].substr(1,2));
 
-          if (this.routesSpider.length == 0) {
-            this.renderURL.complete();
-          } else {
-            this.renderURL.next(this.routesSpider[0]);
+          do
+          {
+
+          if (this.routesDone.indexOf(this.routesSpider[0])!=-1)
+            {  this.routesSpider.splice(0,1) }
+
+
           }
+          while (this.routesSpider.length!=0 && this.routesDone.indexOf(this.routesSpider[0])!=-1
+           );
+
+
+         //   console.log(routesSpider[0].substr(1,2));
+
+          if (this.routesSpider.length==0)
+          {
+              this.renderURL.complete();
+
+          }
+          else{
+            this.logger.warn('SCRAPPING  ' +   this.routesSpider[0] )
+            this.renderURL.next(this.routesSpider[0] )
+          }
+
+
+
+
+
         })
         .catch(error => {
           console.log(error);
@@ -190,17 +215,4 @@ export default class SpiderCommand extends SSRCommand {
     }
   }
 
-// interval(1000).pipe(
-//   map(x=>
-//  request({
-//    uri: `http://localhost:4200/`,
-//    })
-//   .then( y=> {
-//       return 'ok'})
-//   .error(err=> {
 
-//     return 'nook'})
-//   )
-
-//  ).subscribe(y=> console.log(y))
-// renderURL.next([routesSpider[0],'client']);

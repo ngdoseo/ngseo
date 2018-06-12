@@ -31,27 +31,24 @@ const configMinify = {
   removeTagWhitespace: true
 };
 
-
-
-
 export class PageOptimizer {
   private globalCss: string;
   public initialized: boolean = false;
-  public DIST_FOLDER:string;
-  public ssrConfig:SSRCliOptions;
-  
-  
-  
+  public DIST_FOLDER: string;
+  public ssrConfig: SSRCliOptions;
+
   constructor() {
     this.ssrConfig = {
       cliOptions: {
-        command:""
+        command: ""
       },
-      appOptions:{},
-      configOptions:readConfig(),
+      appOptions: {},
+      configOptions: readConfig()
     };
-   this.DIST_FOLDER = join(process.cwd(), this.ssrConfig.configOptions.paths.DIST_FOLDER);
- 
+    this.DIST_FOLDER = join(
+      process.cwd(),
+      this.ssrConfig.configOptions.paths.DIST_FOLDER
+    );
   }
 
   async initialize(): Promise<boolean> {
@@ -66,7 +63,9 @@ export class PageOptimizer {
         throw "ERROR: Styles css File not found in dist folder or found more than one  ";
       }
 
-      this.globalCss = readFileSync(join(this.DIST_FOLDER, CssFiles[0].toString())).toString();
+      this.globalCss = readFileSync(
+        join(this.DIST_FOLDER, CssFiles[0].toString())
+      ).toString();
       this.initialized = true;
     }
     return true;
@@ -77,7 +76,7 @@ export class PageOptimizer {
     const head = document.querySelector("head");
     const body = document.querySelector("body");
     const styles = head.querySelectorAll("style");
-
+    this.globalCss = "";
     const newLe = styles.length;
     for (let index = 0; index < newLe; index++) {
       let attr = styles.item(0).innerHTML;
@@ -86,6 +85,27 @@ export class PageOptimizer {
     }
 
     const cssFile = document.querySelector("[rel=stylesheet]");
+
+    if (this.ssrConfig.configOptions.defaults.platform == "client") {
+      head.removeChild(cssFile);
+      body.appendChild(cssFile);
+
+      const scriptsHead = head.querySelectorAll("script");
+      const scrLe = scriptsHead.length;
+
+      let delindex = 0;
+      for (let index = 0; index < scrLe; index++) {
+        let src = scriptsHead.item(delindex).getAttribute("src");
+        if (src != null) {
+          if (src.substr(src.length - 12, 12) == "ngfactory.js") {
+           
+            head.removeChild(scriptsHead.item(delindex));
+            delindex = delindex - 1;
+          }
+        }
+        delindex = delindex + 1;
+      }
+    }
 
     const newcss = purify(body.innerHTML, this.globalCss, {
       // Will minify CSS code in addition to purify.
@@ -96,12 +116,12 @@ export class PageOptimizer {
     });
 
     const newStyle = document.createElement("style");
-    newStyle.setAttribute("ng-transition",this.ssrConfig.configOptions.serverapp );
+    newStyle.setAttribute(
+      "ng-transition",
+      this.ssrConfig.configOptions.serverapp
+    );
     newStyle.textContent = newcss;
     head.appendChild(newStyle);
-
-    //head.removeChild(cssFile);
-    //body.appendChild(cssFile);
 
     return document.documentElement.outerHTML;
     //return document.documentElement.innerHTML;

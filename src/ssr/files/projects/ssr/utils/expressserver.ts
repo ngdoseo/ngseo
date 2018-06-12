@@ -46,23 +46,24 @@ export async function LaunchStaticServer(){
     configOptions:readConfig(),
   };
   const DIST_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER);
+  const PUBLIC_FOLDER = DIST_FOLDER + '-public';
 
 
 
 
-  app.get("*.*", express.static(join(DIST_FOLDER)));
+  app.get("*.*", express.static(join(PUBLIC_FOLDER)));
 
 
   app.get('*', function(req, res) {
     console.log(req)
-    res.sendFile(join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER + '/' + req.url + "/index.html"));
+    res.sendFile(join(PUBLIC_FOLDER + '/' + req.url + "/index.html"));
 });
   // and the rest routes will be redirected to "/"
 
 
 
   app.listen(5000, async () => {
-     console.log('\n Serving App http://localhost:5000 n')
+     console.log('\n Serving App http://localhost:5000 \n')
     });
 
   // app.get("*", function(req, res) {

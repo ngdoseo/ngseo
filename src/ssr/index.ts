@@ -172,6 +172,7 @@ function addDependenciesandCreateScripts(options:any): Rule {
     pkg.dependencies["webpack"] = "^4.8.3";
     pkg.dependencies["ts-loader"] =  "^4.3.0";
     pkg.dependencies["fs-extra"]="^6.0.1";
+    pkg.dependencies["chalk"] = "^2.4.1";
     pkg.dependencies["webpack-node-externals"]= "^1.7.2";
     pkg.dependencies["progress-bar-webpack-plugin"]="1.11.0";
     pkg.devDependencies["@types/html-minifier"]= "^3.5.2",

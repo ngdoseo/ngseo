@@ -29,6 +29,7 @@ import { PageOptimizer } from "../utils/css-optimize";
 import { promise } from "protractor";
 import { SSRCliOptions } from "../utils/models";
 import { SSRCommand, CommandScope, Option } from "../utils/command";
+import { copy, copySync } from "fs-extra";
 
 
 let ssrConfig: SSRCliOptions = {
@@ -42,6 +43,7 @@ let ssrConfig: SSRCliOptions = {
 
 const SSR_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.SSR_FOLDER);
 const DIST_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER);
+const PUBLIC_FOLDER = DIST_FOLDER + '-public';
 const DIST_FOLDER_SERVER = join(process.cwd(),ssrConfig.configOptions.paths.DIST_FOLDER_SERVER);
 // Our index.html we'll use as our template
 
@@ -85,6 +87,12 @@ export default class StaticCommand extends SSRCommand {
     if (this.initialized) {
       return;
     }
+
+    if (!existsSync(PUBLIC_FOLDER)) {
+      mkdirSync(join(PUBLIC_FOLDER));
+    }
+    this.logger.info('Copying Dist Folder to Public Folder\n')
+    copySync(DIST_FOLDER, PUBLIC_FOLDER);
 
     this.newCrome = new ChromeRenderer();
     this.pageOptimizer = new PageOptimizer();
@@ -178,7 +186,7 @@ export default class StaticCommand extends SSRCommand {
       }
 
       let routesSplit = route.split("/");
-      let checkRoute = DIST_FOLDER;
+      let checkRoute = PUBLIC_FOLDER;
       let filename = route
         .split("/")
         .join("-")
@@ -192,9 +200,9 @@ export default class StaticCommand extends SSRCommand {
         checkRoute = checkRoute + "/" + routesSplit[index];
         var element = [index];
       }
-      console.log(route);
 
-      writeFileSync(resolve(DIST_FOLDER + route + "/" + "index.html"), html);
+
+      writeFileSync(resolve(PUBLIC_FOLDER + route + "/" + "index.html"), html);
 
       this.i++;
 
