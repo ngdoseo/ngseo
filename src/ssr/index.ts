@@ -76,7 +76,16 @@ function changeConfigPaths(options: any, host: Tree): Rule {
     const clientProject = workspace.projects[options.clientProject];
   
     clientProject.architect.server.options.outputPath = clientProject.architect.build.options.outputPath + "-server";
-     const workspacePath = getWorkspacePath(host);
+    
+    clientProject.architect.build.configuration['static'] =  {
+      "fileReplacements": [
+        {
+          "replace": "src/environments/environment.ts",
+          "with": "src/environments/environment.seo.ts"
+        }]
+      };
+    
+    const workspacePath = getWorkspacePath(host);
     host.overwrite(workspacePath, JSON.stringify(workspace, null, 2));
 
     return host;
@@ -111,7 +120,7 @@ function createFiles(options: any, host: Tree): Rule {
 }
 
 function addModuleLoader(): Rule {
-  console.log('\n 678')
+
   return (host: Tree) => {
 
     host.getDir('src').visit(filePath => {

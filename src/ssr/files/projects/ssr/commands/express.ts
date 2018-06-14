@@ -23,6 +23,7 @@ import { ChromeRenderer } from "../utils/chrome";
 import { SSRCommand, CommandScope, Option } from "../utils/command";
 import { SSRCliOptions } from "../utils/models";
 import { PageOptimizer } from "../utils/css-optimize";
+import { copy, copySync } from "fs-extra";
 
 let options = {};
 
@@ -42,6 +43,8 @@ let ssrConfig: SSRCliOptions = {
 
 const SSR_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.SSR_FOLDER);
 const DIST_FOLDER = join(process.cwd(), ssrConfig.configOptions.paths.DIST_FOLDER);
+const PUBLIC_FOLDER = DIST_FOLDER + '-public';
+
 const DIST_FOLDER_SERVER = join(process.cwd(),ssrConfig.configOptions.paths.DIST_FOLDER_SERVER);
 // Our index.html we'll use as our template
 
@@ -82,15 +85,22 @@ export default class ExpressCommand extends SSRCommand {
       return;
     }
 
+    if (!existsSync(PUBLIC_FOLDER)) {
+      mkdirSync(join(PUBLIC_FOLDER));
+    }
+    this.logger.info('Copying Dist Folder to Public Folder\n')
+    copySync(DIST_FOLDER, PUBLIC_FOLDER);
+
     this.newCrome = new ChromeRenderer();
     this.pageOptimizer = new PageOptimizer();
+
     this.initialized = true;
   }
 
   public async run(options: SSRCliOptions) {
     this.ssrOptions = options;
 
-    this.logger.info("Preparing Routes Rendering\n");
+    this.logger.info("Preparing the rendering of the Routes\n");
 
     let spiderConfig = this.ssrOptions.configOptions.spider;
 
@@ -107,19 +117,19 @@ export default class ExpressCommand extends SSRCommand {
         this.browserRenderEachUrl(this.url);
       },
       error => {
-        this.logger.info(`error: at ${this.url}`);
+        console.log(`error: at ${this.url}`);
       },
       async () => {
-        this.logger.info(`Finish last URL: ${this.url}`);
-        this.newCrome.close().then(() => this.logger.info("Closing Chrome Chromium"));
-        await LaunchStaticServer();
-        //process.exit();
+        this.logger.info(`finish last url: ${this.url} \n`);
+        this.newCrome.close().then(() => this.logger.info("Browser Instance Down"));
+        LaunchStaticServer()
+
+
+       // process.exit();
       }
     );
 
     await this.renderRoutes();
-
-
   }
 
   async renderRoutes() {
@@ -127,9 +137,11 @@ export default class ExpressCommand extends SSRCommand {
     if (this.ssrOptions.configOptions.static.optimizecss) {
       await this.pageOptimizer.initialize();
     }
-    process.stderr.write(
-      this.ssrOptions.configOptions.defaults.platform.toString()
-    );
+
+
+
+    //process.stderr.write(this.ssrOptions.configOptions.defaults.platform,'y ssssss');
+
 
     await this.Launchclient();
 
@@ -139,28 +151,29 @@ export default class ExpressCommand extends SSRCommand {
     try {
 
 
-       this.appServerNew = await Launchserver();
+      this.appServerNew = await Launchserver();
 
 
-      const aqui = await this.newCrome.initialize();
+      const newCromeAwait = await this.newCrome.initialize();
 
 
-      await this.appServerNew.listen(4200,  () => {
-         renderURL.next(ROUTES[0]);
+      await this.appServerNew.listen(4200, async () => {
+      await renderURL.next(ROUTES[0]);
       });
     } catch (err) {
-      this.logger.info(`server not started`);
+      this.logger.warn(`server not started`);
     }
   }
 
   async browserRenderEachUrl(route: string): Promise<void> {
     try {
       let html = await this.newCrome.render({
-        url: "http://localhost:4200/" + route
+        url: "http://localhost:4200" + route
       });
 
-      this.logger.info(`Rendering: ${route}`);
-  
+
+       this.logger.info(`Rendering: ${route}`);
+
 
       if (this.ssrOptions.configOptions.static.optimizecss) {
         html = await this.pageOptimizer.optimizeCss(html);
@@ -170,7 +183,7 @@ export default class ExpressCommand extends SSRCommand {
       }
 
       let routesSplit = route.split("/");
-      let checkRoute = DIST_FOLDER;
+      let checkRoute = PUBLIC_FOLDER;
       let filename = route
         .split("/")
         .join("-")
@@ -185,7 +198,8 @@ export default class ExpressCommand extends SSRCommand {
         var element = [index];
       }
 
-      writeFileSync(resolve(DIST_FOLDER + route + "/" + "index.html"), html);
+
+      writeFileSync(resolve(PUBLIC_FOLDER + route + "/" + "index.html"), html);
 
       this.i++;
 
@@ -195,7 +209,7 @@ export default class ExpressCommand extends SSRCommand {
         renderURL.next(ROUTES[this.i]);
       }
     } catch (e) {
-      console.log("Error!", e);
+      this.logger.info("Error!", e);
     }
   }
 
