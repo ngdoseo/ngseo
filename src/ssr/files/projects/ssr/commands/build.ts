@@ -44,7 +44,7 @@ export default class BuildCommand extends SSRCommand {
 
     // remove the schematic name from the options
    // options._ = options._.slice(1);
-    const clientBuild = exec_child("ng",["build","--prod"],this.logger)
+    const clientBuild = exec_child("ng",["build","--configuration=static"],this.logger)
     .subscribe(x=> console.log('Build completed  CLIENT APPLICATION'))
 
     return

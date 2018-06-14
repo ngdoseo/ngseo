@@ -1,7 +1,7 @@
 {
   "name": "@ampgular/schematics",
-  "version": "1.0.13",
-  "description": "universal",
+  "version": "1.0.14",
+  "description": "Agular client seo",
   "scripts": {
     "build": "npm run tsc",
     "test": "npm run build && jasmine **/*_spec.js",
