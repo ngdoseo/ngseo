@@ -73,16 +73,16 @@ function changeConfigPaths(options: any, host: Tree): Rule {
     clientProject.architect.server.options.outputPath =
       clientProject.architect.build.options.outputPath + "-server";
 
-    clientProject.architect.build.configurations["static"] =
-      clientProject.architect.build.configurations["production"];
+    clientProject.architect.build.configurations["static"] = Object.assign({},clientProject.architect.build.configurations["production"])
+      ;
     clientProject.architect.build.configurations["static"][
       "fileReplacements"
-    ] = [
-      {
-        replace: "src/environments/environment.ts",
-        with: "src/environments/environment.seo.ts"
-      }
-    ];
+        ] =  [
+          {
+            replace: "src/environments/environment.ts",
+            with: "src/environments/environment.seo.ts"
+          }
+        ];
 
     const workspacePath = getWorkspacePath(host);
     host.overwrite(workspacePath, JSON.stringify(workspace, null, 2));
