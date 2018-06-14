@@ -20,11 +20,11 @@ This repository is an extension of @schematics/angular including the universal s
 ![deploy-dynmaic](https://img.shields.io/badge/deploy-%200%2Fx%20-red.svg)  
 
 
-As per 09 June 2018 the major commands --build, --spider, --add-seo, --static, --express are already implemented.
-Next steps:
-    18 June: Next features bunch (seo)
-    01 July: Cli interface served with the package 
-             Medium Post explaining the features and the project
+As per 09 June 2018 the major commands --build, --spider, --add-seo, --static, --express are already implemented.  
+Next steps:  
+    18 June: Next features bunch (seo)  
+    01 July: Cli interface served with the package   
+             Medium Post explaining the features and the project  
 
 
 
