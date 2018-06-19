@@ -6,163 +6,10 @@ import { Router } from "@angular/router";
 import { ɵDomAdapter,ɵgetDOM as getDOM } from "@angular/platform-browser";
 import { Inject } from "@angular/core";
 import { DOCUMENT } from "@angular/platform-browser";
+import { SeoConfig, SocialConfig, SocialArticleConfig, SocialProductConfig, SocialBusinessConfig, articleJson, arrayJson, productJson, localBusJson, webPageJson, webSiteJson } from "./models/json";
 
-export interface SeoConfig {
-  title: string;
-  description: string;
-  keywords?: string;
-  canonical?: string;
-}
-export interface SocialConfig extends SeoConfig {
-  img: string;
-  twiterSite: string;
-  twitterCreator: string;
-  sitename:string;
-  ogtype:string;
-  locale?:string;
-  fbappid?:string;
-}
-export interface SocialBusinessConfig extends SocialConfig {
-  ogtype: "business.business";
-  street: string;
-  locality: string;
-  postalcode: string;
-  country:string;
-  latitude?:string;
-  longitude?:string;
-}
 
-export interface SocialProductConfig extends SocialConfig {
-  ogtype: "product";
-  price: string;
-  currency: string;
-  availability: string;
-}
 
-export interface SocialArticleConfig extends SocialConfig {
-  ogtype: "article";
-  author: string;
-}
-export const arrayJson = [];
-
-export const bookJson = {
-  "@context": "http://schema.org",
-  "@type": "Book",
-  name: "",
-  publisher: "",
-  offers: {
-    "@type": "",
-    price: "",
-    priceCurrency: ""
-  }
-};
-
-export const orgaJson = {
-  "@context": "http://schema.org",
-  "@type": "Organization",
-  "url": "",
-  "name": "",
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "telephone": "",
-    "contactType": ""
-  }
-};
-export const articleJson = {
-  "@context": "http://schema.org",
-  "@type": "article",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": ""
-  },
-  "headline": "",
-  "image": [
-    "",
-   ],
-  "datePublished": "",
-  "dateModified": "",
-  "author": {
-    "@type": "Person",
-    "name": ""
-  },
-   "publisher": {
-    "@type": "Organization",
-    "name": "",
-    "logo": {
-      "@type": "ImageObject",
-      "url": ""
-    }
-  },
-  "description": ""
-}
-export const localBusinessJson = {
-  "@context":"http://schema.org",
-  "@type":"LocalBusiness",
-  "image": [
-    ""
-   ],
-  "@id":"",
-  "name":"",
-  "address":{
-    "@type":"PostalAddress",
-    "streetAddress":"",
-    "addressLocality":"",
-    "addressRegion":"",
-    "postalCode":"",
-    "addressCountry":""
-  },
-  "geo":{
-    "@type":"GeoCoordinates",
-    "latitude":"",
-    "longitude":""
-  },
-  "telephone":"",
-}
-export const productJson = {
-  "@context": "http://schema.org/",
-  "@type": "Product",
-  "name": "Executive Anvil",
-  "image": [
-    "https://example.com/photos/1x1/photo.jpg",
-    "https://example.com/photos/4x3/photo.jpg",
-    "https://example.com/photos/16x9/photo.jpg"
-   ],
-  "description": "Sleeker than ACME's Classic Anvil, the Executive Anvil is perfect for the business traveler looking for something to drop from a height.",
-  "mpn": "925872",
-  "brand": {
-    "@type": "Thing",
-    "name": "ACME"
-  },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.4",
-    "reviewCount": "89"
-  },
-  "offers": {
-    "@type": "Offer",
-    "priceCurrency": "USD",
-    "price": "119.99",
-    "priceValidUntil": "2020-11-05",
-    "itemCondition": "http://schema.org/UsedCondition",
-    "availability": "http://schema.org/InStock",
-    "seller": {
-      "@type": "Organization",
-      "name": "Executive Objects"
-    }
-  }
-}
-export const webpage = {
-  "@context": "http://schema.org",
-  "@type": "WebSite",
-  "url": "http://www.example.com/",
-  "name": "",
-   "author": {
-      "@type": "Person",
-      "name": ""
-    },
-  "description": "",
-  "publisher": "",
-    }
 
 @Injectable()
 export class MetaService {
@@ -183,7 +30,7 @@ export class MetaService {
   }
 
 
-  seo(data: SeoConfig) {
+  seo(data: SeoConfig,json=true) {
     this._title.setTitle(data.title);
     this._meta.updateTag({ name: "description", content: data.description });
     data.keywords?this._meta.updateTag({ name: "keywords", content: data.keywords }):"";
@@ -193,14 +40,26 @@ export class MetaService {
     this._dom.setAttribute(canoLink, 'rel', 'canonical');
     this._dom.setAttribute(canoLink, 'href',  data.canonical? this.site + data.canonical : this.site +  this.router.url);
     this._dom.appendChild(this.head, canoLink);
-    // this._dom.setAttribute(linkCano, 'type', 'application/ld+json');
-    // this._dom.setInnerHTML(jsonScriptLink, JSON.stringify(metaUpdate.jsonld));
-    // this._dom.insertAfter(head, insertIni, jsonScriptLink);
+
+    if (data.autoJson && json)
+    {
+
+    }
+
 
   }
 
+  seoDomain(data: SeoConfig)
+  {
+    this.seo(data,false);
+    let jsonPush = [];
+    jsonPush.push(this.createJsonDomain(data));
+    this.jsonLd(jsonPush)
+  
+  }
+
   social(data: SocialConfig) {
-    this.seo(data);
+    this.seo(data,false);
 
 
     // Preparing Twitter Struncture Data
@@ -230,8 +89,20 @@ export class MetaService {
         if(data.ogtype=="article")
         {
           let dataArticle = data as SocialArticleConfig;
+          let articleDate = new Date().toISOString()
           this._meta.updateTag({ property: "article:author", content: dataArticle.author});
-          this._meta.updateTag({ property: "article:published_time", content: new Date().toISOString() });
+          this._meta.updateTag({ property: "article:published_time", content:  articleDate});
+
+          if (data.autoJson==true)
+          {
+            let jsonPush = [];
+            jsonPush.push(this.createJsonArticle(dataArticle));
+            this.jsonLd(jsonPush)
+
+          }
+
+        
+
         }
         else if (data.ogtype=="product")
         {
@@ -239,6 +110,14 @@ export class MetaService {
           this._meta.updateTag({ property: "product:price:amount", content: dataProduct.price });
           this._meta.updateTag({ property: "product:price:currency", content: dataProduct.currency });
           this._meta.updateTag({ property: "og:availability", content: dataProduct.availability });
+
+          if (data.autoJson==true)
+          {
+            let jsonPush = [];
+            jsonPush.push(this.createJsonProduct(dataProduct));
+            this.jsonLd(jsonPush)
+
+          }
 
         }
         else if (data.ogtype=="business.business")
@@ -251,8 +130,90 @@ export class MetaService {
           dataBusiness.latitude?this._meta.updateTag({ property:"place:location:latitude", content:dataBusiness.latitude}):"";
           dataBusiness.longitude?this._meta.updateTag({ property:"place:location:longitude", content:dataBusiness.longitude}):"";
 
+          if (data.autoJson==true)
+          {
+            let jsonPush = [];
+            jsonPush.push(this.createJsonLocal(dataBusiness));
+            this.jsonLd(jsonPush)
+
+          }
+
         }
   }
 
-  jsonLd(array: any[]) {}
+  createJsonArticle(dataArticle:SocialArticleConfig):{}
+  {
+
+          let artJson = articleJson;
+          let articleDate = new Date().toISOString()
+          artJson.author.name=dataArticle.author;
+          artJson.dateModified = articleDate;
+          artJson.datePublished = articleDate;
+          artJson.description = dataArticle.description;
+          artJson.headline = dataArticle.description;
+          artJson.image.push(dataArticle.img);
+          //artJson.publisher()
+    
+         return  artJson
+  }
+
+  createJsonProduct(dataProduct:SocialProductConfig):{}
+  {
+
+    let prodJson = productJson;
+    prodJson.name = dataProduct.title;
+    prodJson.image.push(dataProduct.img);
+    prodJson.brand.name = dataProduct.brand;
+    prodJson.description = dataProduct.description;
+    prodJson.mpn = dataProduct.ean;
+    prodJson.offers.availability = dataProduct.availability;
+    prodJson.offers.itemCondition = dataProduct.itemCondition;
+    prodJson.offers.price = dataProduct.price;
+    return prodJson
+
+  }
+
+  createJsonLocal(dataBusiness:SocialBusinessConfig):{}
+  {
+    let localBusinessJson = localBusJson;
+    localBusinessJson.name = dataBusiness.title;
+    localBusinessJson.image.push(dataBusiness.img);
+    localBusinessJson.geo.latitude = dataBusiness.latitude;
+    localBusinessJson.geo.longitude = dataBusiness.longitude;
+    localBusinessJson.hasMap = dataBusiness.hasMap;
+    localBusinessJson.description=  dataBusiness.description;
+    dataBusiness.canonical?  localBusinessJson["@id"] =  this.site +  dataBusiness.canonical :localBusinessJson["@id"] =  this.site +  this.router.url
+    return localBusinessJson
+  }
+  
+  createJsonWeb(data:SeoConfig):{} {
+
+    let webJson = webPageJson;
+    webJson.name = data.title;
+    webJson.description = data.description;
+    data.canonical?  webJson.url =  this.site +  data.canonical : webJson.url =  this.site +  this.router.url
+    return webPageJson
+
+  }
+
+  createJsonDomain(data:SeoConfig):{} {
+
+    let webJson = webSiteJson;
+    webJson.name = data.title;
+    webJson.description = data.description;
+    data.canonical?  webJson.url =  this.site +  data.canonical : webJson.url =  this.site +  this.router.url
+    return webJson
+
+  }
+
+
+
+  jsonLd(passedArray: any[]) {
+
+    const jsonScript = this._dom.createElement('script') as HTMLScriptElement;
+    this._dom.setAttribute(jsonScript, 'type', 'application/ld+json');
+    this._dom.setInnerHTML(jsonScript, JSON.stringify(passedArray));
+    this._dom.appendChild(this.head, jsonScript);
+
+  }
 }

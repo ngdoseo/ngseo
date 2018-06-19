@@ -9,4 +9,4 @@
 'use strict';
 
 
-require('../projects/ssr/ssr-cli');
+require('/test');

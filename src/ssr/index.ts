@@ -167,9 +167,10 @@ function addDependenciesandCreateScripts(options: any): Rule {
 
     const pkg = JSON.parse(buffer.toString());
 
-    (pkg.scripts["ssr:client"] = "ts-node projects/ssr/ssr-cli.ts --client"),
-      (pkg.scripts["ssr:server"] = "ts-node projects/ssr/ssr-cli.ts --server"),
-      (pkg.dependencies["@nguniversal/module-map-ngfactory-loader"] = "^6.0.0");
+    pkg.scripts["ssr:client"] = "ts-node projects/ssr/ssr-cli.ts --client",
+    pkg.scripts["ssr:server"] = "ts-node projects/ssr/ssr-cli.ts --server",
+    pkg.scripts["seo:build"] = "tsc -p projects/ssr/tsconfig-seo.json",
+    pkg.dependencies["@nguniversal/module-map-ngfactory-loader"] = "^6.0.0";
     pkg.dependencies["@nguniversal/express-engine"] = "^6.0.0";
     pkg.dependencies["webpack"] = "^4.8.3";
     pkg.dependencies["ts-loader"] = "^4.3.0";
