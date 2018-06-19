@@ -82,6 +82,7 @@ export const webSiteJson = {
   "@type": "WebSite",
   name: whoIamOrga.name,
   url: whoIamOrga.url,
+  description:"",
   sameAs: whoIamOrga.sameAs,
   potentialAction: {
     "@type": "",
@@ -161,12 +162,9 @@ export const productJson = {
 export const webPageJson = {
   "@context": "http://schema.org",
   "@type": "WebSite",
-  url: "http://www.example.com/",
+  url: "",
   name: "",
-  author: {
-    "@type": "Person",
-    name: ""
-  },
+  author: whoIamPerson,
   description: "",
-  publisher: ""
+  publisher: whoIamOrga
 };

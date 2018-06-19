@@ -6,7 +6,7 @@ import { Router } from "@angular/router";
 import { ɵDomAdapter,ɵgetDOM as getDOM } from "@angular/platform-browser";
 import { Inject } from "@angular/core";
 import { DOCUMENT } from "@angular/platform-browser";
-import { SeoConfig, SocialConfig, SocialArticleConfig, SocialProductConfig, SocialBusinessConfig, articleJson, arrayJson, productJson, localBusJson } from "./models/json";
+import { SeoConfig, SocialConfig, SocialArticleConfig, SocialProductConfig, SocialBusinessConfig, articleJson, arrayJson, productJson, localBusJson, webPageJson, webSiteJson } from "./models/json";
 
 
 
@@ -30,7 +30,7 @@ export class MetaService {
   }
 
 
-  seo(data: SeoConfig) {
+  seo(data: SeoConfig,json=true) {
     this._title.setTitle(data.title);
     this._meta.updateTag({ name: "description", content: data.description });
     data.keywords?this._meta.updateTag({ name: "keywords", content: data.keywords }):"";
@@ -41,11 +41,25 @@ export class MetaService {
     this._dom.setAttribute(canoLink, 'href',  data.canonical? this.site + data.canonical : this.site +  this.router.url);
     this._dom.appendChild(this.head, canoLink);
 
+    if (data.autoJson && json)
+    {
+
+    }
+
 
   }
 
+  seoDomain(data: SeoConfig)
+  {
+    this.seo(data,false);
+    let jsonPush = [];
+    jsonPush.push(this.createJsonDomain(data));
+    this.jsonLd(jsonPush)
+  
+  }
+
   social(data: SocialConfig) {
-    this.seo(data);
+    this.seo(data,false);
 
 
     // Preparing Twitter Struncture Data
@@ -79,17 +93,15 @@ export class MetaService {
           this._meta.updateTag({ property: "article:author", content: dataArticle.author});
           this._meta.updateTag({ property: "article:published_time", content:  articleDate});
 
-          let jsonPush = []
-          let artJson = articleJson;
-          artJson.author.name=dataArticle.author;
-          artJson.dateModified = articleDate;
-          artJson.datePublished = articleDate;
-          artJson.description = dataArticle.description;
-          artJson.headline = dataArticle.description;
-          artJson.image.push(dataArticle.img);
-          //artJson.publisher()
-          jsonPush.push(artJson)
-          this.jsonLd(jsonPush)
+          if (data.autoJson==true)
+          {
+            let jsonPush = [];
+            jsonPush.push(this.createJsonArticle(dataArticle));
+            this.jsonLd(jsonPush)
+
+          }
+
+        
 
         }
         else if (data.ogtype=="product")
@@ -99,20 +111,13 @@ export class MetaService {
           this._meta.updateTag({ property: "product:price:currency", content: dataProduct.currency });
           this._meta.updateTag({ property: "og:availability", content: dataProduct.availability });
 
-          let jsonPush = []
-          let prodJson = productJson;
-          prodJson.name = dataProduct.title;
-          prodJson.image.push(dataProduct.img);
-          prodJson.brand.name = dataProduct.brand;
-          prodJson.description = dataProduct.description;
-          prodJson.mpn = dataProduct.ean;
-          prodJson.offers.availability = dataProduct.availability;
-          prodJson.offers.itemCondition = dataProduct.itemCondition;
-          prodJson.offers.price = dataProduct.price;
-    
-          jsonPush.push(prodJson)
-          this.jsonLd(jsonPush)
+          if (data.autoJson==true)
+          {
+            let jsonPush = [];
+            jsonPush.push(this.createJsonProduct(dataProduct));
+            this.jsonLd(jsonPush)
 
+          }
 
         }
         else if (data.ogtype=="business.business")
@@ -125,21 +130,83 @@ export class MetaService {
           dataBusiness.latitude?this._meta.updateTag({ property:"place:location:latitude", content:dataBusiness.latitude}):"";
           dataBusiness.longitude?this._meta.updateTag({ property:"place:location:longitude", content:dataBusiness.longitude}):"";
 
-          let jsonPush = []
-          let localBusinessJson = localBusJson;
-          localBusinessJson.name = dataBusiness.title;
-          localBusinessJson.image.push(dataBusiness.img);
-          localBusinessJson.geo.latitude = dataBusiness.latitude;
-          localBusinessJson.geo.longitude = dataBusiness.longitude;
-          localBusinessJson.hasMap = dataBusiness.hasMap;
-          localBusinessJson.description=  dataBusiness.description;
-          data.canonical?  localBusinessJson["@id"] =  this.site +  data.canonical :localBusinessJson["@id"] =  this.site +  this.router.url
-          
-          jsonPush.push(localBusinessJson)
-          this.jsonLd(jsonPush)
+          if (data.autoJson==true)
+          {
+            let jsonPush = [];
+            jsonPush.push(this.createJsonLocal(dataBusiness));
+            this.jsonLd(jsonPush)
+
+          }
 
         }
   }
+
+  createJsonArticle(dataArticle:SocialArticleConfig):{}
+  {
+
+          let artJson = articleJson;
+          let articleDate = new Date().toISOString()
+          artJson.author.name=dataArticle.author;
+          artJson.dateModified = articleDate;
+          artJson.datePublished = articleDate;
+          artJson.description = dataArticle.description;
+          artJson.headline = dataArticle.description;
+          artJson.image.push(dataArticle.img);
+          //artJson.publisher()
+    
+         return  artJson
+  }
+
+  createJsonProduct(dataProduct:SocialProductConfig):{}
+  {
+
+    let prodJson = productJson;
+    prodJson.name = dataProduct.title;
+    prodJson.image.push(dataProduct.img);
+    prodJson.brand.name = dataProduct.brand;
+    prodJson.description = dataProduct.description;
+    prodJson.mpn = dataProduct.ean;
+    prodJson.offers.availability = dataProduct.availability;
+    prodJson.offers.itemCondition = dataProduct.itemCondition;
+    prodJson.offers.price = dataProduct.price;
+    return prodJson
+
+  }
+
+  createJsonLocal(dataBusiness:SocialBusinessConfig):{}
+  {
+    let localBusinessJson = localBusJson;
+    localBusinessJson.name = dataBusiness.title;
+    localBusinessJson.image.push(dataBusiness.img);
+    localBusinessJson.geo.latitude = dataBusiness.latitude;
+    localBusinessJson.geo.longitude = dataBusiness.longitude;
+    localBusinessJson.hasMap = dataBusiness.hasMap;
+    localBusinessJson.description=  dataBusiness.description;
+    dataBusiness.canonical?  localBusinessJson["@id"] =  this.site +  dataBusiness.canonical :localBusinessJson["@id"] =  this.site +  this.router.url
+    return localBusinessJson
+  }
+  
+  createJsonWeb(data:SeoConfig):{} {
+
+    let webJson = webPageJson;
+    webJson.name = data.title;
+    webJson.description = data.description;
+    data.canonical?  webJson.url =  this.site +  data.canonical : webJson.url =  this.site +  this.router.url
+    return webPageJson
+
+  }
+
+  createJsonDomain(data:SeoConfig):{} {
+
+    let webJson = webSiteJson;
+    webJson.name = data.title;
+    webJson.description = data.description;
+    data.canonical?  webJson.url =  this.site +  data.canonical : webJson.url =  this.site +  this.router.url
+    return webJson
+
+  }
+
+
 
   jsonLd(passedArray: any[]) {
 
