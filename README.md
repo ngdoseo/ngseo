@@ -15,16 +15,16 @@ This repository is an extension of @schematics/angular including the universal s
 ![build](https://img.shields.io/badge/build-%202%2F4%20-green.svg)  )   
 ![spider](https://img.shields.io/badge/spider-%205%2F7%20-green.svg)  
 ![seo](https://img.shields.io/badge/seo-%204%2F9%20-orange.svg)  
-![deploy-static](https://img.shields.io/badge/static-%205%2F8%20-green.svg)  
-![express-static](https://img.shields.io/badge/express-%206%2F9%20-green.svg)  
+![deploy-static](https://img.shields.io/badge/static-%206%2F8%20-green.svg)  
+![express-static](https://img.shields.io/badge/express-%207%2F9%20-green.svg)  
 ![deploy-dynmaic](https://img.shields.io/badge/deploy-%200%2Fx%20-red.svg)  
 
 
-As per 09 June 2018 the major commands --build, --spider, --add-seo, --static, --express are already implemented.
-Next steps:
-    18 June: Next features bunch (seo)
-    01 July: Cli interface served with the package 
-             Medium Post explaining the features and the project
+As per 09 June 2018 the major commands --build, --spider, --add-seo, --static, --express are already implemented.  
+Next steps:  
+    18 June: Next features bunch (seo)  
+    01 July: Cli interface served with the package   
+             Medium Post explaining the features and the project  
 
 
 
@@ -180,9 +180,9 @@ The command  `npm run ssr:build` will launch two parallell builds , the normal c
 `npm run ssr:platform -- --static`
 
 ### Status
-✅ Command Structure  
+✅ Command Structure
+✅ Copy Static build to Public    
 ✅ Options Workflow  
-🔴 Integrate SEO  
 ✅ Optimize html/css  
 ✅ Static Client Generation  
 ✅ Static SSR Generation  
@@ -194,18 +194,15 @@ The command  `npm run ssr:build` will launch two parallell builds , the normal c
 
 
 ### Status
-✅ Command Structure  
-✅ Options Workflow  
-🔴 Integrate SEO  
+✅ Command Structure 
+✅ Copy Static build to Public   
+✅ Options Workflow   
 ✅ Optimize html/css  
-✅ Static Client Generation  
-✅ Static SSR Generation 
-✅ Spin Express Server 
+✅ Static Client Generation    
+✅ Static SSR Generation   
+✅ Spin Express Server   
 🔴 Tests  
 🔴 Documentation  
-
-## SEO-ing your app
-
 
 
 ## Deploy your app to dynamic server side rendering
